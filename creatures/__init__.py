@@ -3,11 +3,20 @@ from typing import Dict
 
 class Creature:
     # TODO: Figure out a better name for the mana base than just magic_stat.
-    can_use_magic = True
-
-    def __init__(self, first_name: str = 'Unnamed', second_name: str = '', race: str = 'Unknown',
-                 magic_stat: int = 0, constitution: int = 0, physicality: int = 0, dexterity: int = 0,
-                 social: int = 0, experience: int = 0, weapon=None):
+    def __init__(self,
+                 first_name: str = 'Unnamed',
+                 second_name: str = '',
+                 race: str = 'Unknown',
+                 magic_stat: int = 0,
+                 constitution: int = 0,
+                 physicality: int = 0,
+                 dexterity: int = 0,
+                 social: int = 0,
+                 experience: int = 0,
+                 weapon=None,
+                 magic_enabled: bool = True,
+                 gold_worth: int = 0,
+                 experience_worth: int = 0):
         self._first_name = first_name
         self._second_name = second_name
         self._race = race
@@ -18,8 +27,10 @@ class Creature:
         self._dexterity_base = self._dexterity = dexterity
         self._experience = experience
         self._weapon = weapon
+        self._magic_enabled = magic_enabled
+        self._gold_worth = gold_worth
+        self._experience_worth = experience_worth
 
-    @property
     def info(self) -> Dict[str, str]:
         return {
             'name': f'{self._first_name} {self._second_name}',
@@ -196,6 +207,102 @@ class Creature:
     def weapon(self):
         return self._weapon
 
+    def gold_worth(self) -> int:
+        return self._gold_worth
+
+    def experience_worth(self) -> int:
+        return self._experience_worth
+
     # TODO complete store_weapon method once inventory has been created.
     def _store_weapon(self):
         pass
+
+
+# TODO: Add default weapons to the subclasses of Creature once weapons are added in
+class Goblin(Creature):
+    def __init__(self, **kwargs):
+        default_values = {
+            'constitution': 10,
+            'physicality': 5,
+            'dexterity': 10,
+            'weapon': None,
+            'gold_worth': 5,
+            'experience_worth': 10,
+        }
+        # Doing this will mean kwargs uses the default values but will override them if specified.
+        kwargs = {**default_values, **kwargs, 'race': 'Goblin'}
+        super().__init__(**kwargs)
+
+
+class Orc(Creature):
+    def __init__(self, **kwargs):
+        default_values = {
+            'constitution': 15,
+            'physicality': 13,
+            'dexterity': 13,
+            'weapon': None,
+            'gold_worth': 10,
+            'experience_worth': 15,
+        }
+        # Doing this will mean kwargs uses the default values but will override them if specified.
+        kwargs = {**default_values, **kwargs, 'race': 'Orc'}
+        super().__init__(**kwargs)
+
+
+class EarthElemental(Creature):
+    def __init__(self, **kwargs):
+        default_values = {
+            'constitution': 5,
+            'physicality': 16,
+            'dexterity': 16,
+            'weapon': None,
+            'experience_worth': 30,
+        }
+        # Doing this will mean kwargs uses the default values but will override them if specified.
+        kwargs = {**default_values, **kwargs, 'race': 'Earth Elemental'}
+        super().__init__(**kwargs)
+
+
+class Djinn(Creature):
+    def __init__(self, **kwargs):
+        default_values = {
+            'constitution': 10,
+            'physicality': 5,
+            'dexterity': 16,
+            'social': 17,
+            'weapon': None,
+            'gold_worth': 30,
+            'experience_worth': 15,
+        }
+        # Doing this will mean kwargs uses the default values but will override them if specified.
+        kwargs = {**default_values, **kwargs, 'race': 'Djinn'}
+        super().__init__()
+
+
+class Dragon(Creature):
+    def __init__(self, **kwargs):
+        default_values = {
+            'constitution': 30,
+            'physicality': 18,
+            'dexterity': 18,
+            'gold': 100000000,
+            'experience': 500,
+            'weapon': None,
+        }
+        # Doing this will mean kwargs uses the default values but will override them if specified.
+        kwargs = {**default_values, **kwargs, 'race': 'Dragon'}
+        super().__init__(**kwargs)
+
+
+class Human(Creature):
+    def __init__(self, **kwargs):
+        default_values = {
+            'constitution': 10,
+            'physicality': 10,
+            'dexterity': 10,
+            'social': 10,
+            'weapon': None,
+        }
+        # Doing this will mean kwargs uses the default values but will override them if specified.
+        kwargs = {**default_values, **kwargs, 'race': 'Human'}
+        super().__init__(**kwargs)
