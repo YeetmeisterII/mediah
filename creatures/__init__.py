@@ -28,7 +28,7 @@ class Creature:
         self._physicality_base = self._physicality = physicality
         self._dexterity_base = self._dexterity = dexterity
         self._experience = experience
-        self._weapon = weapon.set_user(self)
+        self._weapon = weapon
         self._magic_enabled = magic_enabled
         self._gold_worth = gold_worth
         self._experience_worth = experience_worth
@@ -48,6 +48,11 @@ class Creature:
         return self._health
 
     def increase_health(self, amount: int) -> int:
+        """
+        Increases the health up to the health cap equal to constitution.
+        :param amount: How much health can be added.
+        :return: How much health was actually added.
+        """
         add = (self._constitution - self._health) if self._constitution < (self._health + amount) else amount
         self._health += add
 
@@ -65,6 +70,12 @@ class Creature:
         return amount
 
     def reduce_constitution(self, amount) -> int:
+        """
+        Reduces constitution down to a minimum of 0. If constitution drops below current health then reduce current
+        health to match it.
+        :param amount: How much constitution can be reduced by.
+        :return: How much constitution was actually reduced by.
+        """
         reduce = self._constitution if self._constitution < amount else amount
         self._constitution -= reduce
 
@@ -77,12 +88,22 @@ class Creature:
         return self._mana
 
     def increase_mana(self, amount: int) -> int:
+        """
+        Increases the mana up to the mana cap equal to magic stat.
+        :param amount: How much mana can be added.
+        :return: How much mana was actually added.
+        """
         add = (self._magic_stat - self._mana) if self._magic_stat < (self._mana + amount) else amount
         self._mana += add
 
         return add
 
     def reduce_mana(self, amount: int) -> int:
+        """
+        Reduces mana down to a minimum of 0.
+        :param amount: How much mana can be reduced by.
+        :return: How much mana was actually reduced by.
+        """
         reduce = self._mana if self._mana < amount else amount
         self._mana -= reduce
 
@@ -96,6 +117,12 @@ class Creature:
         return amount
 
     def reduce_magic_stat(self, amount: int) -> int:
+        """
+        Reduces magic stat down to a minimum of 0. If magic stat drops below current mana then reduce current
+        mana to match it.
+        :param amount: How much magic stat can be reduced by.
+        :return: How much magic stat was actually reduced by.
+        """
         reduce = self._magic_stat if self._magic_stat < amount else amount
         self._magic_stat -= reduce
 
@@ -108,12 +135,22 @@ class Creature:
         return self._charisma
 
     def increase_charisma(self, amount: int) -> int:
+        """
+        Increases the charisma up to the cap equal to social.
+        :param amount: How much charisma can be added.
+        :return: How much charisma was actually added.
+        """
         add = (self._social - self._charisma) if self._social < (self._charisma + amount) else amount
         self._charisma += add
 
         return add
 
     def reduce_charisma(self, amount: int) -> int:
+        """
+        Reduces charisma down to a minimum of 0.
+        :param amount: How much charisma can be reduced by.
+        :return: How much charisma was actually reduced by.
+        """
         reduce = self._charisma if self._charisma < amount else amount
         self._charisma -= reduce
 
@@ -127,6 +164,12 @@ class Creature:
         return amount
 
     def reduce_social(self, amount: int) -> int:
+        """
+        Reduces social down to a minimum of 0. If social drops below current charisma then reduce current charisma
+        to match it.
+        :param amount: How much social can be reduced by.
+        :return: How much social was actually reduced by.
+        """
         reduce = self._social if self._social < amount else amount
         self._social -= reduce
 
@@ -139,6 +182,11 @@ class Creature:
         return self._physicality
 
     def increase_physicality(self, amount: int) -> int:
+        """
+        Increases the physicality up to the cap equal to physicality_base.
+        :param amount: How much physicality can be added.
+        :return: How much physicality was actually added.
+        """
         add = (self._physicality_base - self._physicality) if self._physicality_base < (
                 self._physicality + amount) else amount
         self._physicality += add
@@ -146,6 +194,11 @@ class Creature:
         return add
 
     def reduce_physicality(self, amount: int) -> int:
+        """
+        Reduces physicality down to a minimum of 0.
+        :param amount: How much physicality can be reduced by.
+        :return: How much physicality was actually reduced by.
+        """
         reduce = self._physicality if self._physicality < amount else amount
         self._physicality -= reduce
 
@@ -159,6 +212,12 @@ class Creature:
         return amount
 
     def reduce_physicality_base(self, amount: int) -> int:
+        """
+        Reduces physicality_base down to a minimum of 0. If physicality_base drops below current physicality then
+        reduce current physicality to match it.
+        :param amount: How much physicality_base can be reduced by.
+        :return: How much physicality_base was actually reduced by.
+        """
         reduce = self._physicality_base if self._physicality_base < amount else amount
         self._physicality_base -= reduce
 
@@ -171,6 +230,11 @@ class Creature:
         return self._dexterity
 
     def increase_dexterity(self, amount: int) -> int:
+        """
+        Increases the dexterity up to the cap equal to dexterity_base.
+        :param amount: How much dexterity can be added.
+        :return: How much dexterity was actually added.
+        """
         add = (self._dexterity_base - self._dexterity) if self._dexterity_base < (
                 self._dexterity + amount) else amount
         self._dexterity += add
@@ -178,6 +242,11 @@ class Creature:
         return add
 
     def reduce_dexterity(self, amount: int) -> int:
+        """
+        Reduces dexterity down to a minimum of 0.
+        :param amount: How much dexterity can be reduced by.
+        :return: How much dexterity was actually reduced by.
+        """
         reduce = self._dexterity if self._dexterity < amount else amount
         self._dexterity -= reduce
 
@@ -191,6 +260,12 @@ class Creature:
         return amount
 
     def reduce_dexterity_base(self, amount: int) -> int:
+        """
+        Reduces dexterity_base down to a minimum of 0. If dexterity_base drops below current dexterity then reduce
+        current dexterity to match it.
+        :param amount: How much dexterity_base can be reduced by.
+        :return: How much dexterity_base was actually reduced by.
+        """
         reduce = self._dexterity_base if self._dexterity_base < amount else amount
         self._dexterity_base -= reduce
 

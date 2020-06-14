@@ -35,6 +35,11 @@ class OffensiveSkill(Skill):
         self._type = 'offensive'
 
     def execute(self, executor: 'Creature') -> dict:
+        """
+        Calculated the damage of the skill based on the quantity of dice, their max value and the base value.
+        :param executor: The Creature performing the skill.
+        :return: Dictionary containing the calculated damage.
+        """
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + self._base_value
         return {'damage': damage}
@@ -46,6 +51,11 @@ class HarshLanguage(OffensiveSkill):
         self._name = 'Harsh Language'
 
     def execute(self, executor: 'Creature') -> dict:
+        """
+        Calculated the damage of the skill based on the quantity of dice, their max value and the executor's charisma.
+        :param executor: The Creature performing the skill.
+        :return: Dictionary containing the calculated damage.
+        """
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + executor.charisma()
         return {'damage': damage}
