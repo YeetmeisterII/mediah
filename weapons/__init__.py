@@ -1,15 +1,12 @@
 import random
 
-from mediah.creatures import Creature
-
 
 class Weapon:
     def __init__(self,
-                 user: Creature = Creature(), name: str = 'Hurty Thingy', weapon_type: str = '', base_damage: int = 0,
-                 dice_quantity: int = 0, dice_max: int = 0):
+                 name: str = 'Hurty Thingy', weapon_type: str = '', base_damage: int = 0, dice_quantity: int = 0,
+                 dice_max: int = 0):
         self._name = name
         self._name_changed = False if name == '' else True
-        self._user = user
         self._weapon_type = weapon_type
         self._base_damage = base_damage
         self._dice_quantity = dice_quantity
@@ -23,10 +20,6 @@ class Weapon:
         self._name = new_name
         return new_name
 
-    def change_user(self, new_user: Creature) -> Creature:
-        self._user = new_user
-        return new_user
-
     def type(self):
         return self._weapon_type
 
@@ -39,7 +32,7 @@ class Weapon:
     def dice_faces(self) -> int:
         return self._dice_max
 
-    def execute(self) -> int:
+    def execute(self, executer) -> int:
         return sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity)) + self._base_damage
 
 
@@ -65,5 +58,3 @@ class RockFist(Weapon):
     def __init__(self, dice_quantity: int = 1, dice_max=8, base_damage=3, **kwargs):
         super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, base_damage=3, name='Rock Fist', **kwargs)
         self._weapon_type = 'Rock Fist'
-
-
