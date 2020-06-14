@@ -8,7 +8,7 @@ class Weapon:
         self._name = name
         self._name_changed = False if name == '' else True
         self._weapon_type = weapon_type
-        self._base_damage = base_damage
+        self._base_value = base_damage
         self._dice_quantity = dice_quantity
         self._dice_max = dice_max
 
@@ -23,8 +23,8 @@ class Weapon:
     def type(self):
         return self._weapon_type
 
-    def base_damage(self) -> int:
-        return self._base_damage
+    def base_value(self) -> int:
+        return self._base_value
 
     def dice_quantity(self) -> int:
         return self._dice_quantity
@@ -32,29 +32,30 @@ class Weapon:
     def dice_faces(self) -> int:
         return self._dice_max
 
-    def execute(self, executer) -> int:
-        return sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity)) + self._base_damage
+    def execute(self, executor) -> int:
+        return sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity)) + self._base_value
 
 
 class Unarmed(Weapon):
-    def __init__(self, dice_quantity: int = 1, dice_max=1, **kwargs):
-        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, name='Fist', **kwargs)
+    def __init__(self, dice_quantity: int = 1, dice_max: int = 1, name: str = 'Fist', **kwargs):
+        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, name=name, **kwargs)
         self._weapon_type = 'Unarmed'
 
 
 class Sword(Weapon):
-    def __init__(self, dice_quantity: int = 1, dice_max=6, **kwargs):
-        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, name='Sword', **kwargs)
+    def __init__(self, dice_quantity: int = 1, dice_max: int = 6, name: str = 'Sword', **kwargs):
+        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, name=name, **kwargs)
         self._weapon_type = 'Sword'
 
 
 class Dagger(Weapon):
-    def __init__(self, dice_quantity: int = 1, dice_max=3, **kwargs):
-        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, name='Dagger', **kwargs)
+    def __init__(self, dice_quantity: int = 1, dice_max: int = 3, name: str = 'Dagger', **kwargs):
+        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, name=name, **kwargs)
         self._weapon_type = 'Dagger'
 
 
 class RockFist(Weapon):
-    def __init__(self, dice_quantity: int = 1, dice_max=8, base_damage=3, **kwargs):
-        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, base_damage=3, name='Rock Fist', **kwargs)
+    def __init__(self, dice_quantity: int = 1, dice_max: int = 8, base_value: int = 3, name: str = 'Rock Fist',
+                 **kwargs):
+        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, base_damage=base_value, name=name, **kwargs)
         self._weapon_type = 'Rock Fist'
