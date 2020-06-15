@@ -1,5 +1,7 @@
 import random
 
+from mediah.attacks import Attack
+
 
 class Skill:
     def __init__(self, dice_quantity: int = 0, dice_max: int = 0, base_value: int = 0,
@@ -34,15 +36,15 @@ class OffensiveSkill(Skill):
         super().__init__(**kwargs)
         self._type = 'offensive'
 
-    def execute(self, executor: 'Creature') -> dict:
+    def execute(self, executor: 'Creature') -> Attack:
         """
         Calculated the damage of the skill based on the quantity of dice, their max value and the base value.
         :param executor: The Creature performing the skill.
-        :return: Dictionary containing the calculated damage.
+        :return: An Attack object.
         """
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + self._base_value
-        return {'damage': damage}
+        return Attack(damage=damage)
 
 
 class HarshLanguage(OffensiveSkill):
@@ -50,15 +52,15 @@ class HarshLanguage(OffensiveSkill):
         super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, **kwargs)
         self._name = 'Harsh Language'
 
-    def execute(self, executor: 'Creature') -> dict:
+    def execute(self, executor: 'Creature') -> Attack:
         """
         Calculated the damage of the skill based on the quantity of dice, their max value and the executor's charisma.
         :param executor: The Creature performing the skill.
-        :return: Dictionary containing the calculated damage.
+        :return: An Attack object.
         """
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + executor.charisma()
-        return {'damage': damage}
+        return Attack(damage=damage)
 
 
 class FireBreath(OffensiveSkill):
