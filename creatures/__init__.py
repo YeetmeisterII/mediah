@@ -1,14 +1,14 @@
 from typing import Dict
 
-from mediah import weapons, skills
+from mediah import weapons
 
 
 class Creature:
     # TODO: Figure out a better name for the mana base than just magic_stat.
     def __init__(self,
-                 first_name: str = 'Unnamed',
-                 second_name: str = '',
-                 race: str = 'Unknown',
+                 first_name: str = "Unnamed",
+                 second_name: str = "",
+                 race: str = "Unknown",
                  magic_stat: int = 0,
                  constitution: int = 0,
                  physicality: int = 0,
@@ -19,6 +19,7 @@ class Creature:
                  magic_enabled: bool = True,
                  gold_worth: int = 0,
                  experience_worth: int = 0):
+        self._inventory = []
         self._first_name = first_name
         self._second_name = second_name
         self._race = race
@@ -35,10 +36,10 @@ class Creature:
 
     def info(self) -> Dict[str, str]:
         return {
-            'name': f'{self._first_name} {self._second_name}',
-            'first_name': self._first_name,
-            'second_name': self._second_name,
-            'race': self._race,
+            "name": f"{self._first_name} {self._second_name}",
+            "first_name": self._first_name,
+            "second_name": self._second_name,
+            "race": self._race,
         }
 
     def is_alive(self) -> bool:
@@ -290,101 +291,54 @@ class Creature:
     def experience_worth(self) -> int:
         return self._experience_worth
 
-    # TODO: Complete store_weapon method once inventory has been created.
+    def equip_weapon(self, weapon: "Weapon"):
+        self._store_weapon()
+        self._grab_weapon(weapon)
+
+    # TODO: Rework store_weapon method once inventory has been created.
     def _store_weapon(self):
-        pass
+        self._inventory.append(self._weapon)
+        self._weapon = None
+
+    def _grab_weapon(self, weapon: "Weapon"):
+        self._weapon = weapon
 
     # TODO: Figure out the logistics of how an attack will work and create Attack objects.
-    def attack(self, action):
+    def basic_attack(self):
         pass
 
 
 class Goblin(Creature):
     def __init__(self, **kwargs):
-        default_values = {
-            'constitution': 10,
-            'physicality': 5,
-            'dexterity': 10,
-            'weapon': weapons.Dagger(),
-            'gold_worth': 5,
-            'experience_worth': 10,
-        }
-        # Doing this will mean kwargs uses the default values but will override them if specified.
-        kwargs = {**default_values, **kwargs, 'race': 'Goblin'}
         super().__init__(**kwargs)
+        self._race = "Goblin"
 
 
 class Orc(Creature):
     def __init__(self, **kwargs):
-        default_values = {
-            'constitution': 15,
-            'physicality': 13,
-            'dexterity': 13,
-            'weapon': weapons.Sword(),
-            'gold_worth': 10,
-            'experience_worth': 15,
-        }
-        # Doing this will mean kwargs uses the default values but will override them if specified.
-        kwargs = {**default_values, **kwargs, 'race': 'Orc'}
         super().__init__(**kwargs)
+        self._race = "Orc"
 
 
 class EarthElemental(Creature):
     def __init__(self, **kwargs):
-        default_values = {
-            'constitution': 5,
-            'physicality': 16,
-            'dexterity': 16,
-            'weapon': weapons.RockFist(),
-            'experience_worth': 30,
-        }
-        # Doing this will mean kwargs uses the default values but will override them if specified.
-        kwargs = {**default_values, **kwargs, 'race': 'Earth Elemental'}
         super().__init__(**kwargs)
+        self._race = "Earth Elemental"
 
 
 class Djinn(Creature):
     def __init__(self, **kwargs):
-        default_values = {
-            'constitution': 10,
-            'physicality': 5,
-            'dexterity': 16,
-            'social': 17,
-            # TODO: Create the ability for creatures to have skills and stop using them as if they're weapons
-            'weapon': skills.HarshLanguage(),
-            'gold_worth': 30,
-            'experience_worth': 15,
-        }
-        # Doing this will mean kwargs uses the default values but will override them if specified.
-        kwargs = {**default_values, **kwargs, 'race': 'Djinn'}
         super().__init__(**kwargs)
+        self._race = "Djinn"
 
 
 class Dragon(Creature):
     def __init__(self, **kwargs):
-        default_values = {
-            'constitution': 30,
-            'physicality': 18,
-            'dexterity': 18,
-            # TODO: Create the ability for creatures to have skills and stop using them as if they're weapons
-            'weapon': skills.FireBreath(),
-            'gold': 100000000,
-            'experience': 500,
-        }
-        # Doing this will mean kwargs uses the default values but will override them if specified.
-        kwargs = {**default_values, **kwargs, 'race': 'Dragon'}
         super().__init__(**kwargs)
+        self._race = "Dragon"
 
 
 class Human(Creature):
     def __init__(self, **kwargs):
-        default_values = {
-            'constitution': 10,
-            'physicality': 10,
-            'dexterity': 10,
-            'social': 10,
-            'weapon': weapons.Sword(),
-        }
-        # Doing this will mean kwargs uses the default values but will override them if specified.
-        kwargs = {**default_values, **kwargs, 'race': 'Human'}
         super().__init__(**kwargs)
+        self._race = "Human"

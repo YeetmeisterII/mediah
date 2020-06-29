@@ -5,7 +5,7 @@ from mediah.actions import AttackAction
 
 class Skill:
     def __init__(self, dice_quantity: int = 0, dice_max: int = 0, base_value: int = 0,
-                 skill_name: str = 'generic_skill'):
+                 skill_name: str = "generic_skill"):
         self._dice_quantity = dice_quantity
         self._dice_max = dice_max
         self._base_value = base_value
@@ -23,20 +23,20 @@ class Skill:
     def base_value(self) -> int:
         return self._base_value
 
-    def use(self, executor: 'Creature', target: object) -> dict:
+    def use(self, executor: "Creature", target: object) -> dict:
         pass
 
 
 class OffensiveSkill(Skill):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._type = 'offensive'
+        self._type = "offensive"
 
-    def use(self, executor: 'Creature', target: object) -> AttackAction:
+    def use(self, executor: "Creature", target: object) -> AttackAction:
         """
         Calculated the damage of the skill based on the quantity of dice, their max value and the base value.
         :param executor: The Creature performing the skill.
-        :param target: Object the attack it being aimed at.
+        :param target: Object that receives the attack.
         :return: An Attack object.
         """
         hit_index = random.randint(1, 20)
@@ -48,13 +48,13 @@ class OffensiveSkill(Skill):
 class HarshLanguage(OffensiveSkill):
     def __init__(self, dice_quantity: int = 1, dice_max: int = 4, **kwargs):
         super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, **kwargs)
-        self._name = 'Harsh Language'
+        self._name = "Harsh Language"
 
-    def use(self, executor: 'Creature', target: object) -> AttackAction:
+    def use(self, executor: "Creature", target: object) -> AttackAction:
         """
-        Calculated the damage of the skill based on the quantity of dice, their max value and the executor's charisma.
+        Calculated the damage of the skill based on the quantity of dice, their max value and the executor"s charisma.
         :param executor: The Creature performing the skill.
-        :param target: Object the attack it being aimed at.
+        :param target: Object that receives the attack.
         :return: An Attack object.
         """
         hit_index = random.randint(1, 20)
@@ -66,4 +66,4 @@ class HarshLanguage(OffensiveSkill):
 class FireBreath(OffensiveSkill):
     def __init__(self, dice_quantity: int = 2, dice_max: int = 12, **kwargs):
         super().__init__(**kwargs)
-        self._name = 'Fire Breath'
+        self._name = "Fire Breath"
