@@ -3,7 +3,7 @@ class Action:
         self._executor = executor
         self._target = target
 
-    def executor(self) -> 'Creature':
+    def executor(self) -> "Creature":
         return self._executor
 
     def target(self) -> object:

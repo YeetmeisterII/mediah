@@ -2,17 +2,17 @@ from mediah.actions import Attack
 
 
 class Spell:
-    def __init__(self, name: str = 'Unknown magic', cost: int = 0):
+    def __init__(self, name: str = "Unknown magic", cost: int = 0):
         self._name = name
         self._mana_cost = cost
 
-    def is_castable(self, caster: 'Creature'):
+    def is_castable(self, caster: "Creature"):
         if caster.magic_enabled() and (self._mana_cost <= caster.mana()):
             return True
         else:
             return False
 
-    def cast(self, executor: 'Creature', target: 'Creature'):
+    def cast(self, executor: "Creature", target: "Creature"):
         pass
 
 
@@ -21,7 +21,7 @@ class HealingSpell(Spell):
         super().__init__(**kwargs)
         self._health = health
 
-    def cast(self, executor: 'Creature', target: 'Creature'):
+    def cast(self, executor: "Creature", target: "Creature"):
         pass
 
 
@@ -30,5 +30,5 @@ class OffensiveSpell(Spell):
         super().__init__(**kwargs)
         self._damage = damage
 
-    def cast(self, executor: 'Creature', target: 'Creature'):
+    def cast(self, executor: "Creature", target: "Creature"):
         return Attack(executor, target, self._damage)
