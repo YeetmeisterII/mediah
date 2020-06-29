@@ -1,6 +1,6 @@
 import random
 
-from mediah.attacks import Attack
+from mediah.actions import AttackAction
 
 
 class Skill:
@@ -10,7 +10,6 @@ class Skill:
         self._dice_max = dice_max
         self._base_value = base_value
         self._name = skill_name
-        self._type = 'generic'
 
     def name(self) -> str:
         return self._name
@@ -24,10 +23,7 @@ class Skill:
     def base_value(self) -> int:
         return self._base_value
 
-    def type(self):
-        return self._type
-
-    def execute(self, executor: 'Creature') -> dict:
+    def use(self, executor: 'Creature', target: object) -> dict:
         pass
 
 
@@ -36,15 +32,17 @@ class OffensiveSkill(Skill):
         super().__init__(**kwargs)
         self._type = 'offensive'
 
-    def execute(self, executor: 'Creature') -> Attack:
+    def use(self, executor: 'Creature', target: object) -> AttackAction:
         """
         Calculated the damage of the skill based on the quantity of dice, their max value and the base value.
         :param executor: The Creature performing the skill.
+        :param target: Object the attack it being aimed at.
         :return: An Attack object.
         """
+        hit_index = random.randint(1, 20)
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + self._base_value
-        return Attack(damage=damage)
+        return AttackAction(executor, target, damage, hit_index)
 
 
 class HarshLanguage(OffensiveSkill):
@@ -52,15 +50,17 @@ class HarshLanguage(OffensiveSkill):
         super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, **kwargs)
         self._name = 'Harsh Language'
 
-    def execute(self, executor: 'Creature') -> Attack:
+    def use(self, executor: 'Creature', target: object) -> AttackAction:
         """
         Calculated the damage of the skill based on the quantity of dice, their max value and the executor's charisma.
         :param executor: The Creature performing the skill.
+        :param target: Object the attack it being aimed at.
         :return: An Attack object.
         """
+        hit_index = random.randint(1, 20)
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + executor.charisma()
-        return Attack(damage=damage)
+        return AttackAction(executor, target, damage, hit_index)
 
 
 class FireBreath(OffensiveSkill):

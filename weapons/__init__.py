@@ -1,8 +1,6 @@
 import random
-from typing import Dict
 
-from mediah import attacks
-from mediah.attacks import Attack
+from mediah.actions import AttackAction
 
 
 class Weapon:
@@ -41,15 +39,16 @@ class Weapon:
     def dice_faces(self) -> int:
         return self._dice_max
 
-    def execute(self, executor: 'Creature') -> Attack:
+    def use(self, executor: 'Creature', target: 'Creature') -> AttackAction:
         """
         Calculated the damage of the weapon based on the quantity of dice, their max value and the base value.
         :param executor: The Creature performing the attack.
         :return: An Attack object.
         """
+        hit_index = random.randint(1, 20)
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + self._base_value
-        return Attack(damage=damage)
+        return AttackAction(executor, target, damage, hit_index)
 
 
 class Unarmed(Weapon):
