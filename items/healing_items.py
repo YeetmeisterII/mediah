@@ -13,7 +13,7 @@ class HealingPotion(Consumable):
         """
         return self._healing_quantity
 
-    def use(self, executor: 'Creature', target: object) -> HealingAction:
+    def use(self, executor: "Creature", target: object) -> HealingAction:
         """
         Create action to perform when used. Delete the potion once it runs out of uses.
         :param executor: User of the item.
