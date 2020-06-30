@@ -4,15 +4,13 @@ from mediah.actions import AttackAction
 
 
 class Weapon:
-    def __init__(self,
-                 name: str = "Hurty Thingy", weapon_type: str = "", base_value: int = 0, dice_quantity: int = 0,
-                 dice_max: int = 0):
+    def __init__(self, name: str = "Hurty stick", base_value: int = 0, dice_quantity: int = 0, dice_max: int = 0):
         self._name = name
         self._name_changed = False if name == "" else True
-        self._weapon_type = weapon_type
         self._base_value = base_value
         self._dice_quantity = dice_quantity
         self._dice_max = dice_max
+        self._weapon_type = ''
 
     def name(self) -> str:
         """
@@ -53,29 +51,28 @@ class Weapon:
 
 
 class Unarmed(Weapon):
-    def __init__(self, dice_quantity: int = 1, dice_max: int = 1, name: str = "Fist", **kwargs):
-        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, name=name, **kwargs)
+    def __init__(self, name: str = "Fist", **kwargs):
+        super().__init__(name, **kwargs)
         self._name_changed = False if name == "Fist" else True
         self._weapon_type = "Unarmed"
 
 
 class Sword(Weapon):
-    def __init__(self, dice_quantity: int = 1, dice_max: int = 6, name: str = "Sword", **kwargs):
-        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, name=name, **kwargs)
+    def __init__(self, name: str = "Sword", **kwargs):
+        super().__init__(name, **kwargs)
         self._name_changed = False if name == "Sword" else True
         self._weapon_type = "Sword"
 
 
 class Dagger(Weapon):
-    def __init__(self, dice_quantity: int = 1, dice_max: int = 3, name: str = "Dagger", **kwargs):
-        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, name=name, **kwargs)
+    def __init__(self, name: str = "Dagger", **kwargs):
+        super().__init__(name, **kwargs)
         self._name_changed = False if name == "Dagger" else True
         self._weapon_type = "Dagger"
 
 
 class RockFist(Weapon):
-    def __init__(self, dice_quantity: int = 1, dice_max: int = 8, base_value: int = 3, name: str = "Rock Fist",
-                 **kwargs):
-        super().__init__(dice_quantity=dice_quantity, dice_max=dice_max, base_value=base_value, name=name, **kwargs)
+    def __init__(self, name: str = "Rock Fist", **kwargs):
+        super().__init__(name, **kwargs)
         self._name_changed = False if name == "Rock Fist" else True
         self._weapon_type = "Rock Fist"
