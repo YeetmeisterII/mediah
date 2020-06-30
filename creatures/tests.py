@@ -48,44 +48,44 @@ class TestCreatureMethods(unittest.TestCase):
         self.assertEqual(creature.health(), 0)
 
     def test_mana_increase(self):
-        creature = Creature(magic_stat=10)
+        creature = Creature(magic_base=10)
         creature._mana = 5
         self.assertEqual(creature.increase_mana(2), 2)
         self.assertEqual(creature.mana(), 7)
 
     def test_mana_reduce(self):
-        creature = Creature(magic_stat=10)
+        creature = Creature(magic_base=10)
         self.assertEqual(creature.reduce_mana(2), 2)
         self.assertEqual(creature.mana(), 8)
 
     def test_mana_max_cap(self):
-        creature = Creature(magic_stat=10)
+        creature = Creature(magic_base=10)
         creature._mana = 5
         self.assertEqual(creature.increase_mana(6), 5)
         self.assertEqual(creature.mana(), 10)
 
     def test_mana_min_cap(self):
-        creature = Creature(magic_stat=10)
+        creature = Creature(magic_base=10)
         self.assertEqual(creature.reduce_mana(11), 10)
         self.assertEqual(creature.mana(), 0)
 
-    def test_magic_stat_increase(self):
-        creature = Creature(magic_stat=10)
-        self.assertEqual(creature.increase_magic_stat(6), 6)
-        self.assertEqual(creature.magic_stat(), 16)
+    def test_magic_base_increase(self):
+        creature = Creature(magic_base=10)
+        self.assertEqual(creature.increase_magic_base(6), 6)
+        self.assertEqual(creature.magic_base(), 16)
 
-    def test_magic_stat_reduce(self):
-        creature = Creature(magic_stat=10)
+    def test_magic_base_reduce(self):
+        creature = Creature(magic_base=10)
         self.assertEqual(creature.mana(), 10)
-        self.assertEqual(creature.reduce_magic_stat(4), 4)
-        self.assertEqual(creature.magic_stat(), 6)
+        self.assertEqual(creature.reduce_magic_base(4), 4)
+        self.assertEqual(creature.magic_base(), 6)
         self.assertEqual(creature.mana(), 6)
 
-    def test_magic_stat_min_cap(self):
-        creature = Creature(magic_stat=10)
+    def test_magic_base_min_cap(self):
+        creature = Creature(magic_base=10)
         self.assertEqual(creature.mana(), 10)
-        self.assertEqual(creature.reduce_magic_stat(11), 10)
-        self.assertEqual(creature.magic_stat(), 0)
+        self.assertEqual(creature.reduce_magic_base(11), 10)
+        self.assertEqual(creature.magic_base(), 0)
         self.assertEqual(creature.mana(), 0)
 
     def test_charisma_increase(self):
