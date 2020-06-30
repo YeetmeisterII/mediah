@@ -39,7 +39,7 @@ class Skill:
         Create attempted action upon the target when skill is used.
         :param executor: Performer of the skill.
         :param target: Target of the skill.
-        :return: Action object.
+        :return: Action to perform.
         """
         pass
 
@@ -53,12 +53,12 @@ class OffensiveSkill(Skill):
         Calculate damage of skill based on quantity of dice, max value of the dice and the base value.
         :param executor: Performer of the skill.
         :param target: Target of the skill.
-        :return: Attack action.
+        :return: Action to perform.
         """
         hit_index = random.randint(1, 20)
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + self._base_value
-        return AttackAction(executor, target, damage, hit_index)
+        return AttackAction(executor=executor, target=target, damage=damage, hit_index=hit_index)
 
 
 class HarshLanguage(OffensiveSkill):
@@ -71,12 +71,12 @@ class HarshLanguage(OffensiveSkill):
         Calculate damage of skill based on quantity of dice, max value of the dice and the executor's charisma.
         :param executor: Performer of the skill.
         :param target: Target of the skill.
-        :return: Attack action.
+        :return: Action to perform.
         """
         hit_index = random.randint(1, 20)
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + executor.charisma()
-        return AttackAction(executor, target, damage, hit_index)
+        return AttackAction(executor=executor, target=target, damage=damage, hit_index=hit_index)
 
 
 class FireBreath(OffensiveSkill):

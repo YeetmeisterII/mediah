@@ -1,14 +1,17 @@
 import random
 
 from mediah.actions import AttackAction
+from mediah.items import Item
 
 
-class Weapon:
+class Weapon(Item):
     """
     Used to perform attacks. Is a holdable item.
     """
 
-    def __init__(self, name: str = "Hurty stick", base_value: int = 0, dice_quantity: int = 0, dice_max: int = 0):
+    def __init__(self, name: str = "Hurty stick", base_value: int = 0, dice_quantity: int = 0, dice_max: int = 0,
+                 **kwargs):
+        super().__init__(**kwargs)
         self._name = name
         self._name_changed = False if name == "" else True
         self._base_value = base_value
@@ -61,12 +64,12 @@ class Weapon:
         Create attempted action upon the target when weapon is used.
         :param executor: Performer of the skill.
         :param target: Target of the skill.
-        :return: Action object.
+        :return: Action to perform.
         """
         hit_index = random.randint(1, 20)
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + self._base_value
-        return AttackAction(executor, target, damage, hit_index)
+        return AttackAction(executor=executor, target=target, damage=damage, hit_index=hit_index)
 
 
 class Unarmed(Weapon):
