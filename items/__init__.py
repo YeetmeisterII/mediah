@@ -43,7 +43,7 @@ class Consumable(Item):
         return self._remaining_uses
 
     def use(self, executor: "Creature", target: object) -> NullAction:
-        # TODO: Add method to allow consumable to delete itself from it's inventory.
+        # TODO: Add method to allow consumable to delete itself from the executor's inventory.
         """
         Create action to perform when used. Delete the consumable once it runs out of uses.
         :param executor: User of the item.
