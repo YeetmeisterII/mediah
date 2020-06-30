@@ -21,6 +21,15 @@ class Action:
         return self._target
 
 
+class NullAction(Action):
+    """
+    Sent as placeholder action comparable to NoneType for actions.
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
 class AttackAction(Action):
     """
     Sent when a creature attempts an attack against another object.
@@ -44,20 +53,20 @@ class AttackAction(Action):
         return self._hit_index
 
 
-class HealAction(Action):
+class HealingAction(Action):
     """
     Sent when a creature attempts to heal another object.
     """
 
-    def __init__(self, executor, target, heal_quantity):
+    def __init__(self, executor, target, healing_quantity):
         super().__init__(executor, target)
-        self._heal_quantity = heal_quantity
+        self._healing_quantity = healing_quantity
 
-    def heal_quantity(self) -> int:
+    def healing_quantity(self) -> int:
         """
         :return: How much to heal to heal the target by.
         """
-        return self._heal_quantity
+        return self._healing_quantity
 
 
 class BlockAction(Action):

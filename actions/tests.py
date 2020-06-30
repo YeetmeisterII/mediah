@@ -1,6 +1,6 @@
 import unittest
 
-from mediah.actions import AttackAction, HealAction
+from mediah.actions import AttackAction, HealingAction
 from mediah.creatures import Creature
 
 
@@ -29,7 +29,7 @@ class TestHealMethods(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.executor = Creature()
         cls.target = Creature()
-        cls.heal = HealAction(executor=cls.executor, target=cls.target, heal_quantity=11)
+        cls.heal = HealingAction(executor=cls.executor, target=cls.target, healing_quantity=11)
 
     def test_executor(self):
         self.assertEqual(self.heal.executor(), self.executor)
@@ -38,4 +38,4 @@ class TestHealMethods(unittest.TestCase):
         self.assertEqual(self.heal.target(), self.target)
 
     def test_health_quantity(self):
-        self.assertEqual(self.heal.heal_quantity(), 11)
+        self.assertEqual(self.heal.healing_quantity(), 11)

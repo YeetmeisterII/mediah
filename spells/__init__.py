@@ -1,4 +1,4 @@
-from mediah.actions import AttackAction, HealAction, Action
+from mediah.actions import AttackAction, HealingAction, Action
 
 
 class Spell:
@@ -22,14 +22,14 @@ class HealingSpell(Spell):
         super().__init__(**kwargs)
         self._healing_quantity = healing_quantity
 
-    def cast(self, executor: "Creature", target: object) -> HealAction:
+    def cast(self, executor: "Creature", target: object) -> HealingAction:
         """
         Cast spell that attempts to heal target.
         :param executor: Creature casting spell.
         :param target: Target of the spell.
-        :return: Heal action.
+        :return: Healing action.
         """
-        return HealAction(executor, target, self._healing_quantity)
+        return HealingAction(executor=executor, target=target, healing_quantity=self._healing_quantity)
 
 
 class OffensiveSpell(Spell):
@@ -44,4 +44,4 @@ class OffensiveSpell(Spell):
         :param target: Target of the spell.
         :return: Attack action.
         """
-        return AttackAction(executor, target, self._damage)
+        return AttackAction(executor=executor, target=target, damage=self._damage)
