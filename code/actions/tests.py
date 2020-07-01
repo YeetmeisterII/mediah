@@ -1,7 +1,7 @@
 import unittest
 
-from mediah.actions import AttackAction, HealingAction
-from mediah.creatures import Creature
+from code.actions import AttackAction, HealingAction
+from code.creatures import Creature
 
 
 class TestAttackMethods(unittest.TestCase):

@@ -1,9 +1,9 @@
 import unittest
 
-from mediah.actions import NullAction, HealingAction
-from mediah.creatures import Creature
-from mediah.items import Consumable
-from mediah.items.healing_items import HealingPotion
+from code.actions import NullAction, HealingAction
+from code.creatures import Creature
+from code.items import Consumable
+from code.items.healing_items import HealingPotion
 
 
 class TestItemMethods(unittest.TestCase):
@@ -19,7 +19,7 @@ class TestConsumableMethods(unittest.TestCase):
         consumable = Consumable(remaining_uses=0)
         self.assertEqual(consumable.is_usable(), False)
 
-    def test_use_action(self):
+    def test_use_action_type(self):
         consumable = Consumable()
         action = consumable.use(Creature(), Creature())
         self.assertEqual(type(action), NullAction)
@@ -34,7 +34,7 @@ class TestHealthPotionMethods(unittest.TestCase):
         healing_potion = HealingPotion(remaining_uses=0, healing_quantity=0)
         self.assertEqual(healing_potion.is_usable(), False)
 
-    def test_use_action(self):
+    def test_use_action_type(self):
         healing_potion = HealingPotion(healing_quantity=0)
         action = healing_potion.use(Creature(), Creature())
         self.assertEqual(type(action), HealingAction)
@@ -50,3 +50,10 @@ class TestHealthPotionMethods(unittest.TestCase):
         creature2 = Creature()
         action = healing_potion.use(executor=creature1, target=creature2)
         self.assertEqual(action.executor(), creature1)
+
+    def test_use_action_target(self):
+        healing_potion = HealingPotion(healing_quantity=0)
+        creature1 = Creature()
+        creature2 = Creature()
+        action = healing_potion.use(executor=creature1, target=creature2)
+        self.assertEqual(action.target(), creature2)

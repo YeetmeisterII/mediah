@@ -1,7 +1,7 @@
 import random
 
-from mediah.actions import AttackAction
-from mediah.items import Item
+from code.actions import AttackAction
+from code.items import Item
 
 
 class Weapon(Item):
@@ -9,11 +9,11 @@ class Weapon(Item):
     Used to perform attacks. Is a holdable item.
     """
 
-    def __init__(self, name: str = "Hurty stick", base_value: int = 0, dice_quantity: int = 0, dice_max: int = 0,
+    def __init__(self, name: str = "default weapon", base_value: int = 0, dice_quantity: int = 0, dice_max: int = 0,
                  **kwargs):
         super().__init__(**kwargs)
         self._name = name
-        self._name_changed = False if name == "" else True
+        self._name_changed = False if name == "default weapon" else True
         self._base_value = base_value
         self._dice_quantity = dice_quantity
         self._dice_max = dice_max

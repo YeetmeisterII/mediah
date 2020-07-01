@@ -1,6 +1,6 @@
 from typing import Dict
 
-from mediah import creatures, weapons, skills
+from code import creatures, weapons, skills
 
 CREATURES = {
     "goblin": creatures.Goblin,
@@ -17,11 +17,13 @@ DEFAULT_CREATURE_STATS = {
     "earth_elemental": {"constitution": 5, "physicality": 16, "dexterity": 16, "experience_worth": 30},
     "djinn": {"constitution": 10, "physicality": 5, "dexterity": 16, "social": 17, "gold_worth": 30,
               "experience_worth": 15},
-    "dragon": {"constitution": 30, "physicality": 18, "dexterity": 18, "gold": 100000000, "experience": 500},
+    "dragon": {"constitution": 30, "physicality": 18, "dexterity": 18, "gold_worth": 100000000,
+               "experience_worth": 500},
     "human": {"constitution": 10, "physicality": 10, "dexterity": 10, "social": 10},
 }
 
 WEAPONS = {
+    "unarmed": weapons.Unarmed,
     "sword": weapons.Sword,
     "dagger": weapons.Dagger,
     "rock_fist": weapons.RockFist,

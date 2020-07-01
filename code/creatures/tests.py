@@ -1,6 +1,6 @@
 import unittest
 
-from mediah.creatures import Creature
+from code.creatures import Creature
 
 
 class TestCreatureMethods(unittest.TestCase):

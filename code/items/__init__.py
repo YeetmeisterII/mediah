@@ -1,4 +1,4 @@
-from mediah.actions import NullAction
+from code.actions import NullAction
 
 
 class Item:

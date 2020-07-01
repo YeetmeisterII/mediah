@@ -1,11 +1,13 @@
-from mediah.actions import AttackAction, HealingAction, Action
+import random
+
+from code.actions import AttackAction, HealingAction, NullAction
 
 
 class Spell:
     def __init__(self, cost: int = 0):
         self._mana_cost = cost
 
-    def is_castable(self, caster: "Creature"):
+    def is_usable(self, caster: "Creature") -> bool:
         """
         Check whether spell can be cast.
         :param caster: Creature being checked.
@@ -13,8 +15,14 @@ class Spell:
         """
         return caster.magic_enabled() and (self._mana_cost <= caster.mana())
 
-    def cast(self, executor: "Creature", target: object) -> Action:
-        pass
+    def use(self, executor: "Creature", target: object) -> NullAction:
+        """
+        Create attempted action when spell is used.
+        :param executor: Performer of the spell.
+        :param target: Target of the spell.
+        :return: Action to spell.
+        """
+        return NullAction(executor=executor, target=target)
 
 
 class HealingSpell(Spell):
@@ -22,7 +30,7 @@ class HealingSpell(Spell):
         super().__init__(**kwargs)
         self._healing_quantity = healing_quantity
 
-    def cast(self, executor: "Creature", target: object) -> HealingAction:
+    def use(self, executor: "Creature", target: object) -> HealingAction:
         """
         Cast spell that attempts to heal target.
         :param executor: Creature casting spell.
@@ -37,11 +45,12 @@ class OffensiveSpell(Spell):
         super().__init__(**kwargs)
         self._damage = damage
 
-    def cast(self, executor: "Creature", target: object) -> AttackAction:
+    def use(self, executor: "Creature", target: object) -> AttackAction:
         """
         Cast spell that attempts to deal damage to target.
         :param executor: Creature casting spell.
         :param target: Target of the spell.
         :return: Attack action.
         """
-        return AttackAction(executor=executor, target=target, damage=self._damage)
+        hit_index = random.randint(1, 20)
+        return AttackAction(executor=executor, target=target, damage=self._damage, hit_index=hit_index)
