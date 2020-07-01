@@ -1,6 +1,6 @@
 import random
 
-from mediah.actions import AttackAction, Action
+from code.actions import AttackAction, NullAction
 
 
 class Skill:
@@ -34,14 +34,14 @@ class Skill:
         """
         return self._base_value
 
-    def use(self, executor: "Creature", target: object) -> Action:
+    def use(self, executor: "Creature", target: object) -> NullAction:
         """
         Create attempted action upon the target when skill is used.
         :param executor: Performer of the skill.
         :param target: Target of the skill.
         :return: Action to perform.
         """
-        pass
+        return NullAction(executor=executor, target=target)
 
 
 class OffensiveSkill(Skill):

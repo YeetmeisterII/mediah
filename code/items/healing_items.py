@@ -1,5 +1,5 @@
-from mediah.actions import HealingAction
-from mediah.items import Consumable
+from code.actions import HealingAction
+from code.items import Consumable
 
 
 class HealingPotion(Consumable):

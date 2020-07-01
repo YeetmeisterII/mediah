@@ -1,6 +1,6 @@
 from typing import Dict
 
-from mediah import weapons
+from code import weapons
 
 
 class Creature:
@@ -50,6 +50,12 @@ class Creature:
         :return: Whether the creature is alive.
         """
         return 0 < self._health
+
+    def magic_enabled(self):
+        """
+        :return: Whether the creature can cast magic spells.
+        """
+        return self._magic_enabled
 
     def health(self) -> int:
         """
