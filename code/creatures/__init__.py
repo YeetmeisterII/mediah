@@ -1,5 +1,3 @@
-from typing import Dict
-
 from code import weapons
 
 
@@ -37,13 +35,29 @@ class Creature:
         self._gold_worth = gold_worth
         self._experience_worth = experience_worth
 
-    def info(self) -> Dict[str, str]:
-        return {
-            "name": f"{self._first_name} {self._second_name}",
-            "first_name": self._first_name,
-            "second_name": self._second_name,
-            "race": self._race,
-        }
+    def name(self):
+        """
+        :return: Full name of creature.
+        """
+        return f"{self._first_name} {self._second_name}"
+
+    def first_name(self):
+        """
+        :return: First name of creature.
+        """
+        return self._first_name
+
+    def second_name(self):
+        """
+        :return: Second name of creature.
+        """
+        return self._second_name
+
+    def race(self):
+        """
+        :return: Race of creature.
+        """
+        return self._race
 
     def is_alive(self) -> bool:
         """

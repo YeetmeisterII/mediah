@@ -5,7 +5,6 @@ from code.factory import Factory
 from code.weapons import Sword
 
 
-# TODO: Add a test case to check the defaults of all creatures and weapons.
 class TestCreatureCreationMethods(unittest.TestCase):
     def test_create_creature(self):
         creature = Factory().create_creature("goblin")
