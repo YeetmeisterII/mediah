@@ -8,7 +8,7 @@ class TestResponseMethods(unittest.TestCase):
     def test_result(self):
         executor = Creature()
         target = Creature()
-        response = Response(executor=executor, target=target, reason="reason", outcome="outcome", cause="cause")
+        response = Response(executor=executor, target=target, medium="reason", outcome="outcome", cause="cause")
         self.assertEqual(response.result(), ["reason. outcome because cause."])
 
 

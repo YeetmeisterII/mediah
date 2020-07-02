@@ -39,7 +39,7 @@ class Creature:
         """
         :return: Full name of creature.
         """
-        return f"{self._first_name} {self._second_name}"
+        return f"{self._first_name} {self._second_name}" if self._second_name else self._first_name
 
     def first_name(self):
         """
