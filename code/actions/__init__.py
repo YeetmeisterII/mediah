@@ -1,11 +1,20 @@
+from code.response import AttackResponse
+
+
 class Action:
     """
     Sent when a creature attempts to interact with the world.
     """
 
-    def __init__(self, executor, target):
+    def __init__(self, executor: "Creature", target: object):
         self._executor = executor
         self._target = target
+
+    def __call__(self):
+        return self.main()
+
+    def main(self):
+        pass
 
     def executor(self) -> "Creature":
         """
@@ -39,6 +48,26 @@ class AttackAction(Action):
         super().__init__(executor, target)
         self._damage = damage
         self._hit_index = hit_index
+
+    # TODO: Add blocking functionality.
+    def main(self) -> AttackResponse:
+        attack_points = self._hit_index + self._executor.stats().physicality()
+        defense_points = self._target.stats().dexterity()
+
+        if self._hit_index == 20:
+            damage = self._damage
+            cause = "critical_hit"
+        elif self._hit_index == 1:
+            damage = 0
+            cause = "critical_miss"
+        elif defense_points < attack_points:
+            damage = self._damage
+            cause = "hit"
+        else:
+            damage = 0
+            cause = "miss"
+
+        return AttackResponse(executor=self._executor, target=self._target, outcome=damage, cause=cause)
 
     def damage(self) -> int:
         """

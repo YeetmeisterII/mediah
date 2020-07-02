@@ -13,7 +13,7 @@ class Spell:
         :param caster: Creature being checked.
         :return: If creature can cast spell.
         """
-        return caster.magic_enabled() and (self._mana_cost <= caster.mana())
+        return caster.stats().magic_enabled() and (self._mana_cost <= caster.stats().mana())
 
     def use(self, executor: "Creature", target: object) -> NullAction:
         """

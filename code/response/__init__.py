@@ -6,16 +6,16 @@ class Response:
     Sums up the result of an action.
     """
 
-    def __init__(self, executor: "Creature", target: object, reason: Union[str, int, None],
+    def __init__(self, executor: "Creature", target: object, medium: Union[str, int, None],
                  outcome: Union[str, int, None], cause: Union[str, int, None]):
         self._executor = executor
         self._target = target
-        self._reason = reason
+        self.medium = medium
         self._outcome = outcome
         self._cause = cause
 
-    def result(self) -> List[str]:
-        return [f"{self._reason}. {self._outcome} because {self._cause}."]
+    def result(self) -> None:
+        pass
 
 
 class AttackResponse(Response):
@@ -27,8 +27,8 @@ class AttackResponse(Response):
         super().__init__(executor, target, None, outcome, cause)
 
     def result(self) -> List[str]:
-        executor_name = self._executor.name() if self._executor.second_name() else self._executor.first_name()
-        target_name = self._target.name() if self._target.second_name() else self._target.first_name()
+        executor_name = self._executor.name()
+        target_name = self._target.name()
 
         causes = {
             "critical_hit": "Critical Hit! Attack bypasses defence.",
