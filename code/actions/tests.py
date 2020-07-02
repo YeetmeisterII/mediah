@@ -4,7 +4,7 @@ from code.actions import AttackAction, HealingAction
 from code.creatures import Creature
 
 
-class TestAttackMethods(unittest.TestCase):
+class TestAttackActionMethods(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.executor = Creature()
@@ -24,7 +24,7 @@ class TestAttackMethods(unittest.TestCase):
         self.assertEqual(self.attack.hit_index(), 6)
 
 
-class TestHealMethods(unittest.TestCase):
+class TestHealingActionMethods(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.executor = Creature()
