@@ -75,7 +75,7 @@ class HarshLanguage(OffensiveSkill):
         """
         hit_index = random.randint(1, 20)
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
-        damage = rolled_damage + executor.charisma()
+        damage = rolled_damage + executor.stats().charisma()
         return AttackAction(executor=executor, target=target, damage=damage, hit_index=hit_index)
 
 

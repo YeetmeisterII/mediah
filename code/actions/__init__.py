@@ -51,8 +51,8 @@ class AttackAction(Action):
 
     # TODO: Add blocking functionality.
     def main(self) -> AttackResponse:
-        attack_points = self._hit_index + self._executor.physicality()
-        defense_points = self._target.dexterity()
+        attack_points = self._hit_index + self._executor.stats().physicality()
+        defense_points = self._target.stats().dexterity()
 
         if self._hit_index == 20:
             damage = self._damage
