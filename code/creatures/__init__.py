@@ -1,6 +1,4 @@
-import Stats
-
-from mediah.code.stats()
+from code.stats import Stats
 
 
 class Creature:
@@ -28,14 +26,7 @@ class Creature:
         self._race = race
         self._stats = Stats(constitution=constitution, physicality=physicality, dexterity=dexterity, social=social,
                             experience=experience, magic_enabled=magic_enabled, magic_base=magic_base)
-        self._constitution = self._health = constitution
-        self._magic_base = self._mana = magic_base
-        self._social = self._charisma = social
-        self._physicality_base = self._physicality = physicality
-        self._dexterity_base = self._dexterity = dexterity
-        self._experience = experience
         self._weapon = weapon
-        self._magic_enabled = magic_enabled
         self._gold_worth = gold_worth
         self._experience_worth = experience_worth
 

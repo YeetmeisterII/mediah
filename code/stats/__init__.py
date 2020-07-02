@@ -1,4 +1,8 @@
 class Stats:
+    """
+    Handles the get and set of a creatures stats.
+    """
+
     def __init__(self,
                  constitution: int = 0,
                  physicality: int = 0,
@@ -70,7 +74,6 @@ class Stats:
         """
         reduce = self._constitution if self._constitution < amount else amount
         self._constitution -= reduce
-
         if self._constitution < self._health:
             self._health = self._constitution
         return reduce
@@ -125,7 +128,6 @@ class Stats:
         """
         reduce = self._magic_base if self._magic_base < amount else amount
         self._magic_base -= reduce
-
         if self._magic_base < self._mana:
             self._mana = self._magic_base
         return reduce
@@ -180,7 +182,6 @@ class Stats:
         """
         reduce = self._social if self._social < amount else amount
         self._social -= reduce
-
         if self._social < self._charisma:
             self._charisma = self._social
         return reduce
@@ -238,7 +239,6 @@ class Stats:
         """
         reduce = self._physicality_base if self._physicality_base < amount else amount
         self._physicality_base -= reduce
-
         if self._physicality_base < self._physicality:
             self._physicality = self._physicality_base
         return reduce
@@ -294,10 +294,8 @@ class Stats:
         """
         reduce = self._dexterity_base if self._dexterity_base < amount else amount
         self._dexterity_base -= reduce
-
         if self._dexterity_base < self._dexterity:
             self._dexterity = self._dexterity_base
-
         return reduce
 
     def experience(self) -> int:
