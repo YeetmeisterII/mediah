@@ -4,9 +4,10 @@ from code.creatures import Creature
 
 
 class TestCreatureMethods(unittest.TestCase):
-    def test_is_alive(self):
-        creature = Creature(constitution=1)
-        self.assertEqual(creature.stats().health(), 1)
+    def test_is_alive_above_zero(self):
+        creature = Creature()
+        creature._stats._health = 1
+        self.assertEqual(1, creature.stats().health())
         self.assertEqual(True, creature.is_alive())
 
     def test_is_not_alive(self):
