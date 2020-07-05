@@ -30,7 +30,7 @@ class Creature:
         self._gold_worth = gold_worth
         self._experience_worth = experience_worth
 
-    def name(self):
+    def full_name(self):
         """
         :return: Full name of creature.
         """
@@ -58,7 +58,7 @@ class Creature:
         """
         :return: Whether the creature is alive.
         """
-        return 0 < self._health
+        return 0 < self._stats.health()
 
     def stats(self):
         return self._stats

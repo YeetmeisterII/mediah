@@ -27,8 +27,8 @@ class AttackResponse(Response):
         super().__init__(executor, target, None, outcome, cause)
 
     def result(self) -> List[str]:
-        executor_name = self._executor.name()
-        target_name = self._target.name()
+        executor_name = self._executor.full_name()
+        target_name = self._target.full_name()
 
         causes = {
             "critical_hit": "Critical Hit! Attack bypasses defence.",
