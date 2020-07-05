@@ -95,7 +95,8 @@ class Creature:
         """
         Add current weapon to inventory, set weapon to None.
         """
-        self._inventory.append(self._weapon)
+        if self._weapon is not None:
+            self._inventory.append(self._weapon)
         self._weapon = None
 
     def _grab_weapon(self, weapon: "Weapon") -> None:
