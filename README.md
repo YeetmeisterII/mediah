@@ -1,2 +1,2 @@
 # mediah
-A Project
+Recreational Text-based RPG project.
