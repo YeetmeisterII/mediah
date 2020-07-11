@@ -1,5 +1,5 @@
-from code.stats import Stats
-from code.status import Status
+from game_code.stats import Stats
+from game_code.status import Status
 
 
 class Creature:

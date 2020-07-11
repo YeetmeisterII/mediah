@@ -1,7 +1,7 @@
 import unittest
 
-from code.creatures import Creature
-from code.response import Response, AttackResponse
+from game_code.creatures import Creature
+from game_code.response import Response, AttackResponse
 
 
 class TestResponseMethods(unittest.TestCase):

@@ -1,4 +1,4 @@
-from code.response import AttackResponse, NullResponse
+from game_code.response import AttackResponse, NullResponse
 
 
 class Action:
@@ -6,7 +6,7 @@ class Action:
     Sent when a creature attempts to interact with the world.
     """
 
-    def __init__(self, executor: "Creature", target: object):
+    def __init__(self, executor: "Creature", target: "Creature"):
         self._executor = executor
         self._target = target
 
@@ -23,7 +23,7 @@ class Action:
         """
         return self._executor
 
-    def target(self) -> object:
+    def target(self) -> "Creature":
         """
         :return: Object being acted upon.
         """

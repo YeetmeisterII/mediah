@@ -1,6 +1,6 @@
 import random
 
-from code.actions import AttackAction, NullAction
+from game_code.actions import AttackAction, NullAction
 
 
 class Skill:
@@ -34,7 +34,7 @@ class Skill:
         """
         return self._base_value
 
-    def use(self, executor: "Creature", target: object) -> NullAction:
+    def use(self, executor: "Creature", target: "Creature") -> NullAction:
         """
         Create attempted action upon the target when skill is used.
         :param executor: Performer of the skill.
@@ -48,7 +48,7 @@ class OffensiveSkill(Skill):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def use(self, executor: "Creature", target: object) -> AttackAction:
+    def use(self, executor: "Creature", target: "Creature") -> AttackAction:
         """
         Calculate damage of skill based on quantity of dice, max value of the dice and the base value.
         :param executor: Performer of the skill.
@@ -66,7 +66,7 @@ class HarshLanguage(OffensiveSkill):
         super().__init__(**kwargs)
         self._name = "Harsh Language"
 
-    def use(self, executor: "Creature", target: object) -> AttackAction:
+    def use(self, executor: "Creature", target: "Creature") -> AttackAction:
         """
         Calculate damage of skill based on quantity of dice, max value of the dice and the executor's charisma.
         :param executor: Performer of the skill.

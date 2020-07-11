@@ -1,6 +1,6 @@
 from typing import Dict
 
-from code import creatures, weapons, skills
+from game_code import creatures, weapons, skills
 
 CREATURES = {
     "goblin": creatures.Goblin,

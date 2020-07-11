@@ -1,6 +1,6 @@
 import unittest
 
-from code.stats import Stats
+from game_code.stats import Stats
 
 
 class TestStatsMethods(unittest.TestCase):

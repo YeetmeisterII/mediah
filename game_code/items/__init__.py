@@ -1,4 +1,4 @@
-from code.actions import NullAction
+from game_code.actions import NullAction
 
 
 class Item:
@@ -42,7 +42,7 @@ class Consumable(Item):
         """
         return self._remaining_uses
 
-    def use(self, executor: "Creature", target: object) -> NullAction:
+    def use(self, executor: "Creature", target: "Creature") -> NullAction:
         # TODO: Add method to allow consumable to delete itself from the executor's inventory.
         """
         Create action to perform when used. Delete the consumable once it runs out of uses.

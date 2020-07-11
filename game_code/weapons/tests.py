@@ -1,8 +1,8 @@
 import unittest
 
-from code.actions import AttackAction
-from code.creatures import Creature
-from code.weapons import Weapon
+from game_code.actions import AttackAction
+from game_code.creatures import Creature
+from game_code.weapons import Weapon
 
 
 class TestWeaponMethods(unittest.TestCase):

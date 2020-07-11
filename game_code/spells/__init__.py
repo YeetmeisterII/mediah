@@ -1,6 +1,6 @@
 import random
 
-from code.actions import AttackAction, HealingAction, NullAction
+from game_code.actions import AttackAction, HealingAction, NullAction
 
 
 class Spell:
@@ -15,7 +15,7 @@ class Spell:
         """
         return caster.stats().magic_enabled() and (self._mana_cost <= caster.stats().mana())
 
-    def use(self, executor: "Creature", target: object) -> NullAction:
+    def use(self, executor: "Creature", target: "Creature") -> NullAction:
         """
         Create attempted action when spell is used.
         :param executor: Performer of the spell.
@@ -30,7 +30,7 @@ class HealingSpell(Spell):
         super().__init__(**kwargs)
         self._healing_quantity = healing_quantity
 
-    def use(self, executor: "Creature", target: object) -> HealingAction:
+    def use(self, executor: "Creature", target: "Creature") -> HealingAction:
         """
         Cast spell that attempts to heal target.
         :param executor: Creature casting spell.
@@ -45,7 +45,7 @@ class OffensiveSpell(Spell):
         super().__init__(**kwargs)
         self._damage = damage
 
-    def use(self, executor: "Creature", target: object) -> AttackAction:
+    def use(self, executor: "Creature", target: "Creature") -> AttackAction:
         """
         Cast spell that attempts to deal damage to target.
         :param executor: Creature casting spell.
