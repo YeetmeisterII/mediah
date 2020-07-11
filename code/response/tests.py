@@ -9,7 +9,7 @@ class TestResponseMethods(unittest.TestCase):
         executor = Creature()
         target = Creature()
         response = Response(executor=executor, target=target, medium="reason", outcome="outcome", cause="cause")
-        self.assertEqual(None, response.result())
+        self.assertEqual([], response.result())
 
 
 class TestAttackResponseMethods(unittest.TestCase):

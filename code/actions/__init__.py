@@ -1,4 +1,4 @@
-from code.response import AttackResponse
+from code.response import AttackResponse, NullResponse
 
 
 class Action:
@@ -14,7 +14,7 @@ class Action:
         return self.main()
 
     def main(self):
-        pass
+        return NullResponse(executor=self._executor, target=self._target, cause=None, medium=None, outcome=None)
 
     def executor(self) -> "Creature":
         """
@@ -52,7 +52,8 @@ class AttackAction(Action):
     # TODO: Add blocking functionality.
     def main(self) -> AttackResponse:
         attack_points = self._hit_index + self._executor.stats().physicality()
-        defense_points = self._target.stats().dexterity()
+        target_dexterity = self._target.stats().dexterity()
+        defense_points = 2 * target_dexterity if self._target.status().is_blocking() else target_dexterity
 
         if self._hit_index == 20:
             damage = self._damage
