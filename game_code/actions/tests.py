@@ -1,7 +1,7 @@
 import unittest
 
-from code.actions import AttackAction, HealingAction
-from code.creatures import Creature
+from game_code.actions import AttackAction, HealingAction
+from game_code.creatures import Creature
 
 
 class TestAttackActionMethods(unittest.TestCase):

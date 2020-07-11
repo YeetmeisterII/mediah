@@ -1,7 +1,7 @@
 import unittest
 
-from code.creatures import Creature
-from code.weapons import Sword
+from game_code.creatures import Creature
+from game_code.weapons import Sword
 
 
 class TestCreatureMethods(unittest.TestCase):

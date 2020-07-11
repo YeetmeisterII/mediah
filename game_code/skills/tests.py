@@ -1,8 +1,8 @@
 import unittest
 
-from code.actions import NullAction
-from code.creatures import Creature
-from code.skills import Skill, HarshLanguage
+from game_code.actions import NullAction
+from game_code.creatures import Creature
+from game_code.skills import Skill, HarshLanguage
 
 
 class TestSkillMethods(unittest.TestCase):

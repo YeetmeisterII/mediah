@@ -1,7 +1,7 @@
 import unittest
 
-from code.creatures import Creature
-from code.response import Response, AttackResponse
+from game_code.creatures import Creature
+from game_code.response import Response, AttackResponse
 
 
 class TestResponseMethods(unittest.TestCase):
@@ -9,7 +9,7 @@ class TestResponseMethods(unittest.TestCase):
         executor = Creature()
         target = Creature()
         response = Response(executor=executor, target=target, medium="reason", outcome="outcome", cause="cause")
-        self.assertEqual(None, response.result())
+        self.assertEqual([], response.result())
 
 
 class TestAttackResponseMethods(unittest.TestCase):

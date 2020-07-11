@@ -1,4 +1,5 @@
-from code.stats import Stats
+from game_code.stats import Stats
+from game_code.status import Status
 
 
 class Creature:
@@ -29,6 +30,7 @@ class Creature:
         self._weapon = weapon
         self._gold_worth = gold_worth
         self._experience_worth = experience_worth
+        self._status = Status()
 
     def full_name(self):
         """
@@ -62,6 +64,9 @@ class Creature:
 
     def stats(self):
         return self._stats
+
+    def status(self):
+        return self._status
 
     def weapon(self):
         """

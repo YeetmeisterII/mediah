@@ -1,8 +1,8 @@
 import unittest
 
-from code.actions import NullAction, HealingAction
-from code.creatures import Creature
-from code.spells import Spell, HealingSpell
+from game_code.actions import NullAction, HealingAction
+from game_code.creatures import Creature
+from game_code.spells import Spell, HealingSpell
 
 
 class TestSpellMethods(unittest.TestCase):

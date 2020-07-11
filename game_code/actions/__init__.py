@@ -1,4 +1,4 @@
-from code.response import AttackResponse
+from game_code.response import AttackResponse, NullResponse
 
 
 class Action:
@@ -6,7 +6,7 @@ class Action:
     Sent when a creature attempts to interact with the world.
     """
 
-    def __init__(self, executor: "Creature", target: object):
+    def __init__(self, executor: "Creature", target: "Creature"):
         self._executor = executor
         self._target = target
 
@@ -14,7 +14,7 @@ class Action:
         return self.main()
 
     def main(self):
-        pass
+        return NullResponse(executor=self._executor, target=self._target, cause=None, medium=None, outcome=None)
 
     def executor(self) -> "Creature":
         """
@@ -23,7 +23,7 @@ class Action:
         """
         return self._executor
 
-    def target(self) -> object:
+    def target(self) -> "Creature":
         """
         :return: Object being acted upon.
         """
@@ -52,7 +52,8 @@ class AttackAction(Action):
     # TODO: Add blocking functionality.
     def main(self) -> AttackResponse:
         attack_points = self._hit_index + self._executor.stats().physicality()
-        defense_points = self._target.stats().dexterity()
+        target_dexterity = self._target.stats().dexterity()
+        defense_points = 2 * target_dexterity if self._target.status().is_blocking() else target_dexterity
 
         if self._hit_index == 20:
             damage = self._damage

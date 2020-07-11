@@ -14,8 +14,8 @@ class Response:
         self._outcome = outcome
         self._cause = cause
 
-    def result(self) -> None:
-        pass
+    def result(self) -> List[str]:
+        return []
 
 
 class AttackResponse(Response):
@@ -41,3 +41,8 @@ class AttackResponse(Response):
         cause = causes[self._cause]
         outcome = f"{target_name} takes {self._outcome} damage."
         return [reason, cause, outcome]
+
+
+class NullResponse(Response):
+    def result(self) -> List[str]:
+        return []

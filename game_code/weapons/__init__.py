@@ -1,7 +1,7 @@
 import random
 
-from code.actions import AttackAction
-from code.items import Item
+from game_code.actions import AttackAction
+from game_code.items import Item
 
 
 class Weapon(Item):
@@ -59,7 +59,7 @@ class Weapon(Item):
         """
         return self._dice_max
 
-    def use(self, executor: "Creature", target: object) -> AttackAction:
+    def use(self, executor: "Creature", target: "Creature") -> AttackAction:
         """
         Create attempted action upon the target when weapon is used.
         :param executor: Performer of the skill.

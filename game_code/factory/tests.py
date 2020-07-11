@@ -1,8 +1,8 @@
 import unittest
 
-from code.creatures import Goblin
-from code.factory import Factory
-from code.weapons import Sword
+from game_code.creatures import Goblin
+from game_code.factory import Factory
+from game_code.weapons import Sword
 
 
 class TestCreatureCreationMethods(unittest.TestCase):
@@ -108,7 +108,7 @@ class TestWeaponCreationMethods(unittest.TestCase):
 
 
 class TestSkillCreationMethods(unittest.TestCase):
-    # TODO: Refactor create_weapon to create_skill when the necessary modifications in the code are completed.
+    # TODO: Refactor create_weapon to create_skill when the necessary modifications in the game_code are completed.
     def test_default_fire_breath_creation(self):
         skill = Factory().create_weapon("fire_breath")
         self.assertEqual(0, skill.base_value())

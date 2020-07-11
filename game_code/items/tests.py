@@ -1,9 +1,9 @@
 import unittest
 
-from code.actions import NullAction, HealingAction
-from code.creatures import Creature
-from code.items import Consumable
-from code.items.healing_items import HealingPotion
+from game_code.actions import NullAction, HealingAction
+from game_code.creatures import Creature
+from game_code.items import Consumable
+from game_code.items.healing_items import HealingPotion
 
 
 class TestItemMethods(unittest.TestCase):
