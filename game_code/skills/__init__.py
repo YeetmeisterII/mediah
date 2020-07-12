@@ -41,7 +41,7 @@ class Skill:
         :param target: Target of the skill.
         :return: Action to perform.
         """
-        return NullAction(executor=executor, target=target)
+        return NullAction(executor=executor, target=target, tool_used=self)
 
 
 class OffensiveSkill(Skill):
@@ -58,7 +58,7 @@ class OffensiveSkill(Skill):
         hit_index = random.randint(1, 20)
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + self._base_value
-        return AttackAction(executor=executor, target=target, damage=damage, hit_index=hit_index)
+        return AttackAction(damage=damage, hit_index=hit_index)
 
 
 class HarshLanguage(OffensiveSkill):
@@ -76,7 +76,7 @@ class HarshLanguage(OffensiveSkill):
         hit_index = random.randint(1, 20)
         rolled_damage = sum(random.randint(1, self._dice_max) for roll in range(self._dice_quantity))
         damage = rolled_damage + executor.stats().charisma()
-        return AttackAction(executor=executor, target=target, damage=damage, hit_index=hit_index)
+        return AttackAction(executor=executor, target=target, damage=damage, hit_index=hit_index, tool_used=self)
 
 
 class FireBreath(OffensiveSkill):

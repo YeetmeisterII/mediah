@@ -15,7 +15,7 @@ class Effect:
 
     def end_turn(self, effected_creature: "Creature") -> "Action":
         self._turns -= 1
-        return NullAction(executor=self._name, target=effected_creature)
+        return NullAction(executor=self._name, target=effected_creature, tool_used=self)
 
 
 class Block(Effect):

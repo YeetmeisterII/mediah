@@ -6,15 +6,16 @@ class Action:
     Sent when a creature attempts to interact with the world.
     """
 
-    def __init__(self, executor: "Creature", target: "Creature"):
+    def __init__(self, executor: "Creature", target: "Creature", tool_used):
         self._executor = executor
         self._target = target
+        self._tool_used = tool_used
 
     def __call__(self):
         return self.main()
 
     def main(self):
-        return NullResponse(executor=self._executor, target=self._target, cause=None, medium=None, outcome=None)
+        return NullResponse()
 
     def executor(self) -> "Creature":
         """
@@ -28,6 +29,9 @@ class Action:
         :return: Object being acted upon.
         """
         return self._target
+
+    def tool_used(self):
+        return self._tool_used
 
 
 class NullAction(Action):
@@ -44,12 +48,11 @@ class AttackAction(Action):
     Sent when a creature attempts an attack against another object.
     """
 
-    def __init__(self, executor, target, damage, hit_index):
-        super().__init__(executor, target)
+    def __init__(self, damage, hit_index, **kwargs):
+        super().__init__(**kwargs)
         self._damage = damage
         self._hit_index = hit_index
 
-    # TODO: Add blocking functionality.
     def main(self) -> AttackResponse:
         attack_points = self._hit_index + self._executor.stats().physicality()
         target_dexterity = self._target.stats().dexterity()
@@ -57,18 +60,19 @@ class AttackAction(Action):
 
         if self._hit_index == 20:
             damage = self._damage
-            cause = "critical_hit"
+            outcome = "critical_hit"
         elif self._hit_index == 1:
             damage = 0
-            cause = "critical_miss"
+            outcome = "critical_miss"
         elif defense_points < attack_points:
             damage = self._damage
-            cause = "hit"
+            outcome = "hit"
         else:
             damage = 0
-            cause = "miss"
+            outcome = "miss"
 
-        return AttackResponse(executor=self._executor, target=self._target, outcome=damage, cause=cause)
+        return AttackResponse(executor_name=self._executor.full_name(), target_name=self._target.full_name(),
+                              tool_name=self._tool_used.name(), damage=damage, outcome=outcome)
 
     def damage(self) -> int:
         """
@@ -88,8 +92,8 @@ class HealingAction(Action):
     Sent when a creature attempts to heal another object.
     """
 
-    def __init__(self, executor, target, healing_quantity):
-        super().__init__(executor, target)
+    def __init__(self, healing_quantity, **kwargs):
+        super().__init__(**kwargs)
         self._healing_quantity = healing_quantity
 
     def healing_quantity(self) -> int:

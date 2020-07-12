@@ -22,7 +22,7 @@ class Spell:
         :param target: Target of the spell.
         :return: Action to spell.
         """
-        return NullAction(executor=executor, target=target)
+        return NullAction(executor=executor, target=target, tool_used=self)
 
 
 class HealingSpell(Spell):
@@ -37,7 +37,7 @@ class HealingSpell(Spell):
         :param target: Target of the spell.
         :return: Healing action.
         """
-        return HealingAction(executor=executor, target=target, healing_quantity=self._healing_quantity)
+        return HealingAction(executor=executor, target=target, healing_quantity=self._healing_quantity, tool_used=self)
 
 
 class OffensiveSpell(Spell):
@@ -53,4 +53,4 @@ class OffensiveSpell(Spell):
         :return: Attack action.
         """
         hit_index = random.randint(1, 20)
-        return AttackAction(executor=executor, target=target, damage=self._damage, hit_index=hit_index)
+        return AttackAction(damage=self._damage, hit_index=hit_index)
