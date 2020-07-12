@@ -9,7 +9,8 @@ class TestAttackActionMethods(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.executor = Creature()
         cls.target = Creature()
-        cls.attack = AttackAction(executor=cls.executor, target=cls.target, damage=5, hit_index=6)
+        cls.attack = AttackAction(executor=cls.executor, target=cls.target, damage=5, hit_index=6,
+                                  tool_used="Placeholder")
 
     def test_executor(self):
         self.assertEqual(self.executor, self.attack.executor())
@@ -29,7 +30,7 @@ class TestHealingActionMethods(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.executor = Creature()
         cls.target = Creature()
-        cls.heal = HealingAction(executor=cls.executor, target=cls.target, healing_quantity=11)
+        cls.heal = HealingAction(executor=cls.executor, target=cls.target, healing_quantity=11, tool_used="Placeholder")
 
     def test_executor(self):
         self.assertEqual(self.executor, self.heal.executor())

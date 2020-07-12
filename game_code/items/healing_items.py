@@ -21,7 +21,7 @@ class HealingPotion(Consumable):
         :return: Healing action.
         """
         self._remaining_uses -= 1
-        return HealingAction(executor=executor, target=target, healing_quantity=self._healing_quantity)
+        return HealingAction(executor=executor, target=target, healing_quantity=self._healing_quantity, tool_used=self)
 
 
 class LesserHealingPotion(HealingPotion):
