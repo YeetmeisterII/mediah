@@ -51,4 +51,4 @@ class Consumable(Item):
         :return: Action to perform.
         """
         self._remaining_uses -= 1
-        return NullAction(executor=executor, target=target)
+        return NullAction(executor=executor, target=target, tool_used=self)
