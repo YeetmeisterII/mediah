@@ -26,6 +26,10 @@ class Item:
 
 
 class Consumable(Item):
+    """
+    An item that has a limit on the amount it can be used.
+    """
+
     def __init__(self, remaining_uses: int = 1, **kwargs):
         super().__init__(**kwargs)
         self._remaining_uses = remaining_uses

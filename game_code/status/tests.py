@@ -6,13 +6,13 @@ from game_code.status import Block, Status
 
 
 class TestStatusMethods(unittest.TestCase):
-    def test_effect_in_status(self):
+    def test_contains(self):
         status = Status()
         effect = Block()
         status._effects = [effect]
         self.assertTrue(Block in status)
 
-    def test_effect_not_in_status(self):
+    def test_does_not_contain(self):
         status = Status()
         status._effects = []
         self.assertFalse(Block in status)

@@ -19,7 +19,7 @@ class Stats:
         self._magic_enabled = magic_enabled
         self._experience = experience
 
-    def magic_enabled(self):
+    def magic_enabled(self) -> bool:
         """
         :return: Whether the creature can cast magic spells.
         """
