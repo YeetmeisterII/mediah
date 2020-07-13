@@ -52,7 +52,7 @@ DEFAULT_WEAPON_STATS = {
 
 class Factory:
     @staticmethod
-    def create_creature(creature_cls: str, stats: dict = None) -> "Creature":
+    def create_creature(creature_cls: str, stats: dict = None) -> creatures.Creature:
         """
         Instantiate a creature, use default class specific values if no stats are passed.
         :param creature_cls: Class to instantiate.
@@ -63,7 +63,7 @@ class Factory:
         return CREATURES[creature_cls](**stats)
 
     def create_creature_with_weapon(self, creature_cls: str, weapon_cls: str, creature_stats: Dict[str, int] = None,
-                                    weapon_stats: Dict[str, int] = None) -> "Creature":
+                                    weapon_stats: Dict[str, int] = None) -> creatures.Creature:
         """
         Instantiate a creature with a weapon, use default class specific values for the creature and weapon if no stats
         to use are passed.
@@ -79,7 +79,7 @@ class Factory:
         return creature
 
     @staticmethod
-    def create_weapon(weapon_cls: str, stats: dict = None) -> "Weapon":
+    def create_weapon(weapon_cls: str, stats: dict = None) -> weapons.Weapon:
         """
         Instantiate a weapon, use default class values if no stats are passed.
         :param weapon_cls: Class of weapon to instantiate.
@@ -90,7 +90,7 @@ class Factory:
         return WEAPONS[weapon_cls](**stats)
 
     @staticmethod
-    def equip_creature(creature: "Creature", weapon: "Weapon") -> "Creature":
+    def equip_creature(creature: "Creature", weapon: "Weapon") -> weapons.Weapon:
         """
         Equip creature with weapon.
         :param creature: Creature to equip.

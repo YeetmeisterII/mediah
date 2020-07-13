@@ -32,25 +32,25 @@ class Creature:
         self._experience_worth = experience_worth
         self._status = Status()
 
-    def full_name(self):
+    def full_name(self) -> str:
         """
         :return: Full name of creature.
         """
         return f"{self._first_name} {self._second_name}" if self._second_name else self._first_name
 
-    def first_name(self):
+    def first_name(self) -> str:
         """
         :return: First name of creature.
         """
         return self._first_name
 
-    def second_name(self):
+    def second_name(self) -> str:
         """
         :return: Second name of creature.
         """
         return self._second_name
 
-    def race(self):
+    def race(self) -> str:
         """
         :return: Race of creature.
         """
@@ -62,13 +62,19 @@ class Creature:
         """
         return 0 < self._stats.health()
 
-    def stats(self):
+    def stats(self) -> Stats:
+        """
+        :return: Stats object of the creature.
+        """
         return self._stats
 
-    def status(self):
+    def status(self) -> Status:
+        """
+        :return: Status object of the creature.
+        """
         return self._status
 
-    def weapon(self):
+    def weapon(self) -> "Weapon":
         """
         :return: Currently equipped weapon.
         """
