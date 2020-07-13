@@ -11,16 +11,19 @@ class Action:
         self._target = target
         self._tool_used = tool_used
 
-    def __call__(self):
+    def __call__(self) -> NullResponse:
         return self.main()
 
-    def main(self):
+    def main(self) -> NullResponse:
+        """
+        Calculate and perform the action.
+        :return: A NullResponse object that has no information.
+        """
         return NullResponse()
 
     def executor(self) -> "Creature":
         """
         :return: Creature performing the action.
-
         """
         return self._executor
 
@@ -39,9 +42,6 @@ class NullAction(Action):
     Sent as placeholder action comparable to NoneType for actions.
     """
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
 
 class AttackAction(Action):
     """
@@ -54,6 +54,10 @@ class AttackAction(Action):
         self._hit_index = hit_index
 
     def main(self) -> AttackResponse:
+        """
+        Calculate the whether the attack hit and how much damage was dealt.
+        :return: AttackResponse object with information what happen in text format.
+        """
         attack_points = self._hit_index + self._executor.stats().physicality()
         target_dexterity = self._target.stats().dexterity()
         defense_points = 2 * target_dexterity if self._target.status().is_blocking() else target_dexterity
@@ -87,6 +91,7 @@ class AttackAction(Action):
         return self._hit_index
 
 
+# TODO: Implement healing response for healing actions.
 class HealingAction(Action):
     """
     Sent when a creature attempts to heal another object.
@@ -108,5 +113,5 @@ class BlockAction(Action):
     Sent when a creature decides to initiate a defensive stance.
     """
 
-    def __init__(self, executor, target):
-        super().__init__(executor, target)
+    def __init__(self, tool_used=None, **kwargs):
+        super().__init__(tool_used=tool_used, **kwargs)

@@ -3,6 +3,10 @@ from game_code.items import Consumable
 
 
 class HealingPotion(Consumable):
+    """
+    Base class for potions that heal creatures.
+    """
+
     def __init__(self, healing_quantity, **kwargs):
         super().__init__(**kwargs)
         self._healing_quantity = healing_quantity
