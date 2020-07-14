@@ -1,10 +1,11 @@
-from game_code.response import AttackResponse, NullResponse
+from game_code.response import AttackResponse, NullResponse, BlockResponse
 
 
 class Action:
     """
     Sent when a creature attempts to interact with the world.
     """
+    _priority = float("inf")
 
     def __init__(self, executor: "Creature", target: "Creature", tool_used):
         self._executor = executor
@@ -20,6 +21,9 @@ class Action:
         :return: A NullResponse object that has no information.
         """
         return NullResponse()
+
+    def priority(self):
+        return self._priority
 
     def executor(self) -> "Creature":
         """
@@ -47,6 +51,7 @@ class AttackAction(Action):
     """
     Sent when a creature attempts an attack against another object.
     """
+    _priority = 3
 
     def __init__(self, damage, hit_index, **kwargs):
         super().__init__(**kwargs)
@@ -75,6 +80,7 @@ class AttackAction(Action):
             damage = 0
             outcome = "miss"
 
+        self._target.stats().reduce_health(damage)
         return AttackResponse(executor_name=self._executor.full_name(), target_name=self._target.full_name(),
                               tool_name=self._tool_used.name(), damage=damage, outcome=outcome)
 
@@ -96,6 +102,7 @@ class HealingAction(Action):
     """
     Sent when a creature attempts to heal another object.
     """
+    _priority = 2
 
     def __init__(self, healing_quantity, **kwargs):
         super().__init__(**kwargs)
@@ -112,6 +119,16 @@ class BlockAction(Action):
     """
     Sent when a creature decides to initiate a defensive stance.
     """
+    _priority = 1
 
     def __init__(self, tool_used=None, **kwargs):
         super().__init__(tool_used=tool_used, **kwargs)
+
+    def main(self) -> BlockResponse:
+        """
+        :return: BlockResponse instance.
+        """
+        # Deferred import to fix a circular import.
+        from game_code.status import Block
+        self._executor.status().add_effect(Block())
+        return BlockResponse(executor_name=self._executor.full_name(), target_name=self._executor.full_name())

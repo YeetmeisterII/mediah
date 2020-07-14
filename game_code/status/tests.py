@@ -33,14 +33,14 @@ class TestStatusMethods(unittest.TestCase):
         creature = Creature()
         effect = Block()
         status._effects = [effect]
-        responses = status.end_turn(self_creature=creature)
+        responses = status.end_combat_turn(self_creature=creature)
         self.assertEqual([NullAction], list(map(type, responses)))
 
     def test_end_turn_timed_out_effect(self):
         status = Status()
         creature = Creature()
         status._effects = [Block()]
-        responses = status.end_turn(self_creature=creature)
+        responses = status.end_combat_turn(self_creature=creature)
         self.assertEqual(status._effects, [])
 
     def test_end_turn_non_timed_out_effect(self):
@@ -48,5 +48,5 @@ class TestStatusMethods(unittest.TestCase):
         creature = Creature()
         effect = Block(turns=2)
         status._effects = [effect]
-        responses = status.end_turn(self_creature=creature)
+        responses = status.end_combat_turn(self_creature=creature)
         self.assertEqual(status._effects, [effect])

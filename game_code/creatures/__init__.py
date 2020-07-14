@@ -1,5 +1,7 @@
+from game_code.actions import BlockAction
 from game_code.stats import Stats
 from game_code.status import Status
+from game_code.weapons import Unarmed
 
 
 class Creature:
@@ -8,8 +10,8 @@ class Creature:
     """
 
     def __init__(self,
-                 first_name: str = "Unnamed",
-                 second_name: str = "",
+                 first_name: str = None,
+                 second_name: str = None,
                  race: str = "Unknown",
                  magic_base: int = 0,
                  constitution: int = 0,
@@ -17,12 +19,12 @@ class Creature:
                  dexterity: int = 0,
                  social: int = 0,
                  experience: int = 0,
-                 weapon=None,
+                 weapon: "Weapon" = None,
                  magic_enabled: bool = True,
                  gold_worth: int = 0,
                  experience_worth: int = 0):
         self._inventory = []
-        self._first_name = first_name
+        self._first_name = "John" if first_name is None else first_name
         self._second_name = second_name
         self._race = race
         self._stats = Stats(constitution=constitution, physicality=physicality, dexterity=dexterity, social=social,
@@ -78,7 +80,7 @@ class Creature:
         """
         :return: Currently equipped weapon.
         """
-        return self._weapon
+        return Unarmed() if self._weapon is None else self._weapon
 
     def gold_worth(self) -> int:
         """
@@ -117,9 +119,18 @@ class Creature:
         """
         self._weapon = weapon
 
-    # TODO: Figure out the logistics of how an attack will work and create Attack objects.
-    def basic_attack(self):
-        pass
+    def attack(self, target: "Creature") -> "AttackAction":
+        """
+        :param target: Creature targeted by the attack.
+        :return: AttackAction instance.
+        """
+        return self._weapon.use(executor=self, target=target)
+
+    def block(self):
+        return BlockAction(executor=self, target=self)
+
+    def end_combat_turn(self):
+        return self._status.end_combat_turn(self)
 
 
 class Goblin(Creature):

@@ -39,7 +39,7 @@ class Status:
         """
         self._effects.remove(effect)
 
-    def end_turn(self, self_creature: "Creature") -> List["Response"]:
+    def end_combat_turn(self, self_creature: "Creature") -> List["Response"]:
         """
         Get Response objects that are created at the end of a turn from all effects.
         :param self_creature: Creature the Status object is managing.

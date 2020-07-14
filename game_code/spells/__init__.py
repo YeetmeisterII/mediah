@@ -4,6 +4,8 @@ from game_code.actions import AttackAction, HealingAction, NullAction
 
 
 class Spell:
+    name = "Spell"
+
     def __init__(self, cost: int = 0):
         self._mana_cost = cost
 
@@ -26,6 +28,8 @@ class Spell:
 
 
 class HealingSpell(Spell):
+    name = "Healing Spell"
+
     def __init__(self, healing_quantity: int, **kwargs):
         super().__init__(**kwargs)
         self._healing_quantity = healing_quantity
@@ -41,6 +45,8 @@ class HealingSpell(Spell):
 
 
 class OffensiveSpell(Spell):
+    name = "Offensive spell"
+
     def __init__(self, damage: int, **kwargs):
         super().__init__(**kwargs)
         self._damage = damage
@@ -53,4 +59,4 @@ class OffensiveSpell(Spell):
         :return: Attack action.
         """
         hit_index = random.randint(1, 20)
-        return AttackAction(damage=self._damage, hit_index=hit_index)
+        return AttackAction(damage=self._damage, hit_index=hit_index, tool_used=self)

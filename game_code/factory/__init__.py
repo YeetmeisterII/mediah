@@ -51,19 +51,24 @@ DEFAULT_WEAPON_STATS = {
 
 
 class Factory:
-    @staticmethod
-    def create_creature(creature_cls: str, stats: dict = None) -> creatures.Creature:
+    def create_creature(self, creature_cls: str, stats: dict = None, first_name: str = None,
+                        second_name: str = None) -> creatures.Creature:
         """
         Instantiate a creature, use default class specific values if no stats are passed.
         :param creature_cls: Class to instantiate.
         :param stats: Keyword values to be passed when instantiating.
+        :param first_name: First name for the creature.
+        :param second_name: Second name for the creature.
         :return: Instantiated creature.
         """
         stats = DEFAULT_CREATURE_STATS[creature_cls] if stats is None else stats
-        return CREATURES[creature_cls](**stats)
+        return CREATURES[creature_cls](first_name=first_name, second_name=None, **stats)
 
-    def create_creature_with_weapon(self, creature_cls: str, weapon_cls: str, creature_stats: Dict[str, int] = None,
-                                    weapon_stats: Dict[str, int] = None) -> creatures.Creature:
+    def create_creature_with_weapon(self, creature_cls: str, weapon_cls: str = None,
+                                    creature_stats: Dict[str, int] = None,
+                                    weapon_stats: Dict[str, int] = None,
+                                    first_name: str = None,
+                                    second_name: str = None) -> creatures.Creature:
         """
         Instantiate a creature with a weapon, use default class specific values for the creature and weapon if no stats
         to use are passed.
@@ -71,15 +76,17 @@ class Factory:
         :param creature_stats: Keyword values to be passed when instantiating creature.
         :param weapon_cls: Class of weapon to give the creature.
         :param weapon_stats: Keyword values to be passed when instantiating the weapon.
+        :param first_name: First name for the creature.
+        :param second_name: Second name for the creature.
         :return: Instantiated creature with weapon equipped.
         """
-        creature = self.create_creature(creature_cls, creature_stats)
+        weapon_cls = DEFAULT_WEAPONS[creature_cls] if weapon_cls is None else weapon_cls
+        creature = self.create_creature(creature_cls, creature_stats, first_name=first_name, second_name=None)
         weapon = self.create_weapon(weapon_cls, weapon_stats)
         self.equip_creature(creature, weapon)
         return creature
 
-    @staticmethod
-    def create_weapon(weapon_cls: str, stats: dict = None) -> weapons.Weapon:
+    def create_weapon(self, weapon_cls: str, stats: dict = None) -> weapons.Weapon:
         """
         Instantiate a weapon, use default class values if no stats are passed.
         :param weapon_cls: Class of weapon to instantiate.
@@ -89,8 +96,7 @@ class Factory:
         stats = DEFAULT_WEAPON_STATS[weapon_cls] if stats is None else stats
         return WEAPONS[weapon_cls](**stats)
 
-    @staticmethod
-    def equip_creature(creature: "Creature", weapon: "Weapon") -> weapons.Weapon:
+    def equip_creature(self, creature: "Creature", weapon: "Weapon") -> weapons.Weapon:
         """
         Equip creature with weapon.
         :param creature: Creature to equip.
