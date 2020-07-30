@@ -1,36 +1,22 @@
+"""
+The living entities of the game.
+"""
 from game_code.stats import Stats
-from game_code.status import Status
 
 
 class Creature:
     """
     Living entity that all other living creatures are based on.
     """
+    _race = None
 
-    def __init__(self,
-                 first_name: str = "Unnamed",
-                 second_name: str = "",
-                 race: str = "Unknown",
-                 magic_base: int = 0,
-                 constitution: int = 0,
-                 physicality: int = 0,
-                 dexterity: int = 0,
-                 social: int = 0,
-                 experience: int = 0,
-                 weapon=None,
-                 magic_enabled: bool = True,
-                 gold_worth: int = 0,
-                 experience_worth: int = 0):
-        self._inventory = []
+    def __init__(self, first_name: str, second_name: str, stats, status, weapon):
         self._first_name = first_name
         self._second_name = second_name
-        self._race = race
-        self._stats = Stats(constitution=constitution, physicality=physicality, dexterity=dexterity, social=social,
-                            experience=experience, magic_enabled=magic_enabled, magic_base=magic_base)
+        self._stats = stats
+        self._status = status
         self._weapon = weapon
-        self._gold_worth = gold_worth
-        self._experience_worth = experience_worth
-        self._status = Status()
+        self._inventory = []
 
     def full_name(self) -> str:
         """
@@ -68,33 +54,20 @@ class Creature:
         """
         return self._stats
 
-    def status(self) -> Status:
+    def status(self) -> "Status":
         """
         :return: Status object of the creature.
         """
         return self._status
 
-    def weapon(self) -> "Weapon":
+    def weapon(self):
         """
         :return: Currently equipped weapon.
         """
         return self._weapon
 
-    def gold_worth(self) -> int:
-        """
-        :return: Gold reward for killing a creature (is distinct from the gold that a creature has in their inventory).
-        """
-        return self._gold_worth
-
-    def experience_worth(self) -> int:
-        """
-        :return: Experience reward for killing a creature (is distinct from the experience that a creature has
-        accumulated).
-        """
-        return self._experience_worth
-
-    # TODO: Refactor the equip weapon methods once an inventory object has been created.
-    def equip_weapon(self, weapon: "Weapon") -> None:
+    # TODO: Refactor the equip weapon  once an inventory object has been created.
+    def equip_weapon(self, weapon) -> None:
         """
         Place the current weapon in the inventory and replace it with the weapon parameter.
         :param weapon: Weapon to equip.
@@ -110,49 +83,69 @@ class Creature:
             self._inventory.append(self._weapon)
         self._weapon = None
 
-    def _grab_weapon(self, weapon: "Weapon") -> None:
+    def _grab_weapon(self, weapon) -> None:
         """
         Set new weapon field.
         :param weapon: New current weapon.
         """
         self._weapon = weapon
 
-    # TODO: Figure out the logistics of how an attack will work and create Attack objects.
-    def basic_attack(self):
-        pass
-
 
 class Goblin(Creature):
+    """
+    Goblin creature.
+    """
+    _race = "Goblin"
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._race = "Goblin"
 
 
 class Orc(Creature):
+    """
+    Orc creature.
+    """
+    _race = "Orc"
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._race = "Orc"
 
 
 class EarthElemental(Creature):
+    """
+    Earth Elemental creature. They have a racial skill - Rock Fist.
+    """
+    _race = "Earth Elemental"
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._race = "Earth Elemental"
 
 
 class Djinn(Creature):
+    """
+    Djinn creature. They have a racial skill - Harsh Language.
+    """
+    _race = "Djinn"
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._race = "Djinn"
 
 
 class Dragon(Creature):
+    """
+    Dragon creature. They have a racial skill - Fire Breath.
+    """
+    _race = "Dragon"
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._race = "Dragon"
 
 
 class Human(Creature):
+    """
+    Human creature. Likely to be the player character.
+    """
+    _race = "Human"
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self._race = "Human"

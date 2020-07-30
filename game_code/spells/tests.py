@@ -1,48 +1,73 @@
+"""
+All tests for the spells library.
+"""
 import unittest
 
-from game_code.actions import NullAction, HealingAction
-from game_code.creatures import Creature
-from game_code.spells import Spell, HealingSpell
+from game_code.factory import Factory
+from game_code.spells import Spell
 
 
-class TestSpellMethods(unittest.TestCase):
-    def test_is_usable(self):
+class TestSpell(unittest.TestCase):
+    def test_is_usable_magic_enabled_and_valid_mana(self):
         spell = Spell(cost=1)
-        spell_casting_creature = Creature(magic_enabled=True, magic_base=1000)
-        self.assertEqual(True, spell.is_usable(spell_casting_creature))
+        creature = Factory().create_creature(
+            creature_class="goblin", first_name="John", second_name="Doe",
+            stat_values={"magic_enabled": True, "magic_base": 10}
+        )
+        self.assertEqual(True, spell.is_usable(creature))
 
-    def test_not_usable(self):
+    def test_is_usable_magic_enabled_and_borderline_valid_mana(self):
         spell = Spell(cost=1)
-        non_spell_casting_creature = Creature(magic_enabled=False, magic_base=0)
-        self.assertEqual(False, spell.is_usable(non_spell_casting_creature))
+        creature = Factory().create_creature(
+            creature_class="goblin", first_name="John", second_name="Doe",
+            stat_values={"magic_enabled": True, "magic_base": 1}
+        )
+        self.assertEqual(True, spell.is_usable(creature))
 
-    def test_use_action_type(self):
-        spell = Spell()
-        action = spell.use(Creature(), Creature())
-        self.assertEqual(NullAction, type(action))
+    def test_is_usable_magic_enabled_and_borderline_invalid_mana(self):
+        spell = Spell(cost=1)
+        creature = Factory().create_creature(
+            creature_class="goblin", first_name="John", second_name="Doe",
+            stat_values={"magic_enabled": True, "magic_base": 0}
+        )
+        self.assertEqual(False, spell.is_usable(creature))
 
+    def test_is_usable_magic_enabled_and_invalid_mana(self):
+        spell = Spell(cost=1)
+        creature = Factory().create_creature(
+            creature_class="goblin", first_name="John", second_name="Doe",
+            stat_values={"magic_enabled": True, "magic_base": -10}
+        )
+        self.assertEqual(False, spell.is_usable(creature))
 
-class TestHealingSpellMethods(unittest.TestCase):
-    def test_use_action_type(self):
-        healing_spell = HealingSpell(healing_quantity=0)
-        action = healing_spell.use(Creature(), Creature())
-        self.assertEqual(HealingAction, type(action))
+    def test_is_usable_magic_not_enabled_and_valid_mana(self):
+        spell = Spell(cost=1)
+        creature = Factory().create_creature(
+            creature_class="goblin", first_name="John", second_name="Doe",
+            stat_values={"magic_enabled": False, "magic_base": 10}
+        )
+        self.assertEqual(False, spell.is_usable(creature))
 
-    def test_use_action_healing_quantity(self):
-        healing_spell = HealingSpell(healing_quantity=5)
-        action = healing_spell.use(Creature(), Creature())
-        self.assertEqual(5, action.healing_quantity())
+    def test_is_usable_magic_not_enabled_and_borderline_valid_mana(self):
+        spell = Spell(cost=1)
+        creature = Factory().create_creature(
+            creature_class="goblin", first_name="John", second_name="Doe",
+            stat_values={"magic_enabled": False, "magic_base": 1}
+        )
+        self.assertEqual(False, spell.is_usable(creature))
 
-    def test_use_action_executor(self):
-        healing_spell = HealingSpell(healing_quantity=0)
-        creature1 = Creature()
-        creature2 = Creature()
-        action = healing_spell.use(executor=creature1, target=creature2)
-        self.assertEqual(creature1, action.executor())
+    def test_is_usable_magic_not_enabled_and_borderline_invalid_mana(self):
+        spell = Spell(cost=1)
+        creature = Factory().create_creature(
+            creature_class="goblin", first_name="John", second_name="Doe",
+            stat_values={"magic_enabled": False, "magic_base": 0}
+        )
+        self.assertEqual(False, spell.is_usable(creature))
 
-    def test_use_action_target(self):
-        healing_spell = HealingSpell(healing_quantity=0)
-        creature1 = Creature()
-        creature2 = Creature()
-        action = healing_spell.use(executor=creature1, target=creature2)
-        self.assertEqual(creature2, action.target())
+    def test_is_usable_magic_not_enabled_and_invalid_mana(self):
+        spell = Spell(cost=1)
+        creature = Factory().create_creature(
+            creature_class="goblin", first_name="John", second_name="Doe",
+            stat_values={"magic_enabled": False, "magic_base": -10}
+        )
+        self.assertEqual(False, spell.is_usable(creature))

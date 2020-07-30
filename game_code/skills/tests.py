@@ -1,33 +1,18 @@
+"""
+All tests for the skills library.
+"""
 import unittest
 
-from game_code.actions import NullAction
-from game_code.creatures import Creature
-from game_code.skills import Skill, HarshLanguage
+from game_code.factory import Factory
+from game_code.skills import HarshLanguage
 
 
-class TestSkillMethods(unittest.TestCase):
-    def test_use_action(self):
-        skill = Skill()
-        action = skill.use(Creature(), Creature())
-        self.assertEqual(NullAction, type(action))
-
-
-class TestHarshLanguageMethods(unittest.TestCase):
+class TestHarshLanguage(unittest.TestCase):
     def test_use_action_base_damage_using_social(self):
-        harsh_language_skill = HarshLanguage(base_value=10, dice_quantity=0, dice_max=0)
-        action = harsh_language_skill.use(Creature(social=5), Creature())
+        harsh_language_skill = HarshLanguage(base_value=0, dice_quantity=0, dice_max=0)
+        creature1 = Factory().create_creature(
+            creature_class="goblin", first_name="John", second_name="Doe", stat_values={"social": 5}
+        )
+        creature2 = Factory().create_creature(creature_class="goblin", first_name="Charles", second_name="Brown")
+        action = harsh_language_skill.use(creature1, creature2)
         self.assertEqual(5, action.damage())
-
-    def test_use_action_executor(self):
-        harsh_language_skill = HarshLanguage()
-        creature1 = Creature()
-        creature2 = Creature()
-        action = harsh_language_skill.use(executor=creature1, target=creature2)
-        self.assertEqual(creature1, action.executor())
-
-    def test_use_action_target(self):
-        harsh_language_skill = HarshLanguage()
-        creature1 = Creature()
-        creature2 = Creature()
-        action = harsh_language_skill.use(executor=creature1, target=creature2)
-        self.assertEqual(creature2, action.target())

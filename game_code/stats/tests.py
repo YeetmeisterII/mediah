@@ -1,9 +1,12 @@
+"""
+All tests for the stats library.
+"""
 import unittest
 
 from game_code.stats import Stats
 
 
-class TestStatsMethods(unittest.TestCase):
+class TestStats(unittest.TestCase):
     def test_health_increase(self):
         stats = Stats()
         stats._constitution = 10
