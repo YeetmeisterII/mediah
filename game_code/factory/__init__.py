@@ -1,101 +1,101 @@
-from typing import Dict
+"""
+Library contains the data used to dynamically create game objects.
+"""
+from typing import Dict, Union
 
-from game_code import creatures, weapons, skills
-
-CREATURES = {
-    "goblin": creatures.Goblin,
-    "orc": creatures.Orc,
-    "earth_elemental": creatures.EarthElemental,
-    "djinn": creatures.Djinn,
-    "dragon": creatures.Dragon,
-    "human": creatures.Human,
-}
-
-DEFAULT_CREATURE_STATS = {
-    "goblin": {"constitution": 10, "physicality": 5, "dexterity": 10, "gold_worth": 5, "experience_worth": 10},
-    "orc": {"constitution": 15, "physicality": 13, "dexterity": 13, "gold_worth": 10, "experience_worth": 15},
-    "earth_elemental": {"constitution": 5, "physicality": 16, "dexterity": 16, "experience_worth": 30},
-    "djinn": {"constitution": 10, "physicality": 5, "dexterity": 16, "social": 17, "gold_worth": 30,
-              "experience_worth": 15},
-    "dragon": {"constitution": 30, "physicality": 18, "dexterity": 18, "gold_worth": 100000000,
-               "experience_worth": 500},
-    "human": {"constitution": 10, "physicality": 10, "dexterity": 10, "social": 10},
-}
-
-WEAPONS = {
-    "unarmed": weapons.Unarmed,
-    "sword": weapons.Sword,
-    "dagger": weapons.Dagger,
-    "rock_fist": weapons.RockFist,
-    "fire_breath": skills.FireBreath,
-    "harsh_language": skills.HarshLanguage,
-}
-
-DEFAULT_WEAPONS = {
-    "goblin": "dagger",
-    "orc": "sword",
-    "earth_elemental": "rock_fist",
-    "djinn": "harsh_language",
-    "dragon": "fire_breath",
-    "human": "sword",
-}
-
-DEFAULT_WEAPON_STATS = {
-    "unarmed": {"name": "Fist", "base_value": 0, "dice_quantity": 1, "dice_max": 1},
-    "sword": {"name": "Sword", "base_value": 0, "dice_quantity": 1, "dice_max": 6},
-    "dagger": {"name": "Dagger", "base_value": 0, "dice_quantity": 1, "dice_max": 3},
-    "rock_fist": {"name": "Rock Fist", "base_value": 3, "dice_quantity": 1, "dice_max": 8},
-    "fire_breath": {"base_value": 0, "dice_quantity": 2, "dice_max": 12},
-    "harsh_language": {"base_value": 0, "dice_quantity": 1, "dice_max": 4},
-}
+from game_code import creatures, weapons
+from game_code.stats import Stats
+from game_code.status import Status
+from . import constants as const
 
 
 class Factory:
-    @staticmethod
-    def create_creature(creature_cls: str, stats: dict = None) -> creatures.Creature:
-        """
-        Instantiate a creature, use default class specific values if no stats are passed.
-        :param creature_cls: Class to instantiate.
-        :param stats: Keyword values to be passed when instantiating.
-        :return: Instantiated creature.
-        """
-        stats = DEFAULT_CREATURE_STATS[creature_cls] if stats is None else stats
-        return CREATURES[creature_cls](**stats)
+    """
+    Dynamic creation of game objects such as Creatures and Weapons.
+    """
 
-    def create_creature_with_weapon(self, creature_cls: str, weapon_cls: str, creature_stats: Dict[str, int] = None,
-                                    weapon_stats: Dict[str, int] = None) -> creatures.Creature:
+    def create_status(self):
         """
-        Instantiate a creature with a weapon, use default class specific values for the creature and weapon if no stats
-        to use are passed.
-        :param creature_cls: Class of creature to instantiate.
-        :param creature_stats: Keyword values to be passed when instantiating creature.
-        :param weapon_cls: Class of weapon to give the creature.
-        :param weapon_stats: Keyword values to be passed when instantiating the weapon.
-        :return: Instantiated creature with weapon equipped.
+        :return: Status instance. 
         """
-        creature = self.create_creature(creature_cls, creature_stats)
-        weapon = self.create_weapon(weapon_cls, weapon_stats)
-        self.equip_creature(creature, weapon)
-        return creature
+        return Status()
 
-    @staticmethod
-    def create_weapon(weapon_cls: str, stats: dict = None) -> weapons.Weapon:
+    def create_stats_instance(self, creature_class: str, stat_values: Dict[str, Union[int, bool]] = None):
         """
-        Instantiate a weapon, use default class values if no stats are passed.
-        :param weapon_cls: Class of weapon to instantiate.
-        :param stats: Keyword values to be passed when instantiating.
-        :return: Instantiated weapon.
+        Create a Stats instance.
+        :param creature_class: Race of the creature the Stats instance will be used in.
+        :param stat_values: Optional stat values. If stat_values are not passed or are None then default values for the
+        Creature's race will be used.
+        :return: Stats instance.
         """
-        stats = DEFAULT_WEAPON_STATS[weapon_cls] if stats is None else stats
-        return WEAPONS[weapon_cls](**stats)
+        if stat_values is None:
+            stat_values = const.DEFAULT_CREATURE_STATS[creature_class]
+        return Stats(**stat_values)
 
-    @staticmethod
-    def equip_creature(creature: "Creature", weapon: "Weapon") -> weapons.Weapon:
+    def create_weapon(self, weapon_class: str, name: str = None, stat_values: Dict[str, int] = None) -> weapons.Weapon:
         """
-        Equip creature with weapon.
-        :param creature: Creature to equip.
-        :param weapon: Weapon to be equipped.
-        :return: Creature with weapon.
+        Create a Weapon instance.
+        :param weapon_class: Type of weapon to create. Example: 'sword'
+        :param name: Optional name of the weapon.
+        :param stat_values: Optional weapon stats. If stat_values are not passed or is None then default values for the
+        weapon type will be used.
+        :return: Weapon instance.
         """
+        weapon_type = const.WEAPONS[weapon_class]
+        if stat_values is None:
+            stat_values = const.DEFAULT_WEAPON_STATS[weapon_class]
+
+        if name is None:
+            weapon = weapon_type(**stat_values)
+        else:
+            weapon = weapon_type(name=name, **stat_values)
+        return weapon
+
+    def create_creature(
+            self, creature_class: str, first_name: str, second_name: str,
+            stat_values: Dict[str, Union[int, bool]] = None) -> creatures.Creature:
+        """
+        Create an unarmed creature.
+        :param creature_class: Race of the creature being created.
+        :param first_name: First name of the creature being created.
+        :param second_name: Second name of the creature being created.
+        :param stat_values: Optional stat values for the creature. If stat_values are not passed or is None then
+        default stat values for the race will be used.
+        :return: Creature Instance.
+        """
+        stats = self.create_stats_instance(creature_class, stat_values)
+        status = self.create_status()
+        creature_type = const.CREATURES[creature_class]
+        weapon = self.create_weapon(weapon_class="unarmed")
+        return creature_type(first_name=first_name, second_name=second_name, stats=stats, status=status, weapon=weapon)
+
+    def create_creature_with_weapon(
+            self, creature_class: str, first_name: str, second_name: str, creature_stat_values: dict = None,
+            weapon_class: str = None, weapon_stat_values: Dict[str, Union[int, bool]] = None) -> creatures.Creature:
+        """
+        Create a Creature instance with a weapon.
+        :param creature_class: Race of the creature being created.
+        :param first_name: First name of the creature being created.
+        :param second_name: Second name of the creature being created.
+        :param creature_stat_values: Optional stat values for the creature. If not passed default values for the race
+        will be used.
+        :param weapon_class: Optional type of weapon to create. If not passed default weapon for the race will be 
+        created.
+        :param weapon_stat_values: Optional weapon stats. If not passed default stats for the weapon type will be used.
+        :return: Creature instance.
+        """
+        if weapon_class is None:
+            weapon_class = const.DEFAULT_CREATURE_WEAPONS[creature_class]
+        if weapon_stat_values is None:
+            weapon_stat_values = const.DEFAULT_WEAPON_STATS[weapon_class]
+
+        stats = self.create_stats_instance(creature_class, creature_stat_values)
+        status = self.create_status()
+
+        weapon = self.create_weapon(weapon_class, weapon_stat_values)
+        creature_type = const.CREATURES[creature_class]
+        creature = creature_type(
+            first_name=first_name, second_name=second_name, stats=stats, status=status, weapon=weapon
+        )
         creature.equip_weapon(weapon)
         return creature

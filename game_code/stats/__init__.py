@@ -1,16 +1,16 @@
+"""
+Management of the stats that a creature has.
+"""
+
+
 class Stats:
     """
     Handles the get and set of a creatures stats.
     """
 
-    def __init__(self,
-                 constitution: int = 0,
-                 physicality: int = 0,
-                 dexterity: int = 0,
-                 social: int = 0,
-                 experience: int = 0,
-                 magic_base: int = 0,
-                 magic_enabled: bool = True):
+    def __init__(
+            self, constitution: int = 0, physicality: int = 0, dexterity: int = 0, social: int = 0, experience: int = 0,
+            magic_base: int = 0, magic_enabled: bool = True, gold_worth: int = 0, experience_worth: int = 0):
         self._constitution = self._health = constitution
         self._magic_base = self._mana = magic_base
         self._social = self._charisma = social
@@ -18,6 +18,8 @@ class Stats:
         self._dexterity_base = self._dexterity = dexterity
         self._magic_enabled = magic_enabled
         self._experience = experience
+        self._gold_worth = gold_worth
+        self._experience_worth = experience_worth
 
     def magic_enabled(self) -> bool:
         """
@@ -313,3 +315,16 @@ class Stats:
         """
         self._experience += amount
         return amount
+
+    def gold_worth(self) -> int:
+        """
+        :return: Gold reward for killing a creature (is distinct from the gold that a creature has in their inventory).
+        """
+        return self._gold_worth
+
+    def experience_worth(self) -> int:
+        """
+        :return: Experience reward for killing a creature (is distinct from the experience that a creature has
+        accumulated).
+        """
+        return self._experience_worth

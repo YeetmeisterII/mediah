@@ -1,59 +1,57 @@
+"""
+All tests for the items library.
+"""
 import unittest
 
-from game_code.actions import NullAction, HealingAction
-from game_code.creatures import Creature
-from game_code.items import Consumable
-from game_code.items.healing_items import HealingPotion
+from game_code.factory import Factory
+from game_code.items import ConsumableItem
+from game_code.items.healing_items import LesserHealingPotion, IntermediateHealingPotion, \
+    GreaterHealingPotion
 
 
-class TestItemMethods(unittest.TestCase):
-    pass
-
-
-class TestConsumableMethods(unittest.TestCase):
-    def test_is_usable(self):
-        consumable = Consumable(remaining_uses=1)
+class TestItem(unittest.TestCase):
+    def test_is_usable_valid(self):
+        consumable = ConsumableItem(remaining_uses=10, name="test", value=0, weight=0)
         self.assertEqual(True, consumable.is_usable())
 
-    def test_not_usable(self):
-        consumable = Consumable(remaining_uses=0)
+    def test_is_usable_borderline_valid(self):
+        consumable = ConsumableItem(remaining_uses=1, name="test", value=0, weight=0)
+        self.assertEqual(True, consumable.is_usable())
+
+    def test_is_usable_borderline_invalid(self):
+        consumable = ConsumableItem(remaining_uses=0, name="test", value=0, weight=0)
         self.assertEqual(False, consumable.is_usable())
 
-    def test_use_action_type(self):
-        consumable = Consumable()
-        action = consumable.use(Creature(), Creature())
-        self.assertEqual(NullAction, type(action))
+    def test_is_usable_invalid(self):
+        consumable = ConsumableItem(remaining_uses=-1, name="test", value=0, weight=0)
+        self.assertEqual(False, consumable.is_usable())
 
 
-class TestHealthPotionMethods(unittest.TestCase):
-    def test_is_usable(self):
-        healing_potion = HealingPotion(remaining_uses=1, healing_quantity=0)
-        self.assertEqual(True, healing_potion.is_usable())
+class TestHealthPotion(unittest.TestCase):
+    def test_use_remaining_uses_reduction(self):
+        healing_potion = LesserHealingPotion()
+        executor = Factory().create_creature(creature_class="goblin", first_name="John", second_name="Doe")
+        target = Factory().create_creature(creature_class="goblin", first_name="Charles", second_name="Brown")
+        healing_potion.use(executor=executor, target=target)
+        self.assertEqual(0, healing_potion.remaining_uses())
 
-    def test_not_usable(self):
-        healing_potion = HealingPotion(remaining_uses=0, healing_quantity=0)
-        self.assertEqual(False, healing_potion.is_usable())
+    def test_use_lesser_healing_potion_healing_quantity(self):
+        healing_potion = LesserHealingPotion()
+        executor = Factory().create_creature(creature_class="goblin", first_name="John", second_name="Doe")
+        target = Factory().create_creature(creature_class="goblin", first_name="Charles", second_name="Brown")
+        action = healing_potion.use(executor=executor, target=target)
+        self.assertEqual(10, action.healing_quantity())
 
-    def test_use_action_type(self):
-        healing_potion = HealingPotion(healing_quantity=0)
-        action = healing_potion.use(Creature(), Creature())
-        self.assertEqual(HealingAction, type(action))
+    def test_use_intermediate_healing_potion_healing_quantity(self):
+        healing_potion = IntermediateHealingPotion()
+        executor = Factory().create_creature(creature_class="goblin", first_name="John", second_name="Doe")
+        target = Factory().create_creature(creature_class="goblin", first_name="Charles", second_name="Brown")
+        action = healing_potion.use(executor=executor, target=target)
+        self.assertEqual(20, action.healing_quantity())
 
-    def test_use_action_healing_quantity(self):
-        healing_potion = HealingPotion(healing_quantity=7)
-        action = healing_potion.use(Creature(), Creature())
-        self.assertEqual(7, action.healing_quantity())
-
-    def test_use_action_executor(self):
-        healing_potion = HealingPotion(healing_quantity=0)
-        creature1 = Creature()
-        creature2 = Creature()
-        action = healing_potion.use(executor=creature1, target=creature2)
-        self.assertEqual(creature1, action.executor())
-
-    def test_use_action_target(self):
-        healing_potion = HealingPotion(healing_quantity=0)
-        creature1 = Creature()
-        creature2 = Creature()
-        action = healing_potion.use(executor=creature1, target=creature2)
-        self.assertEqual(creature2, action.target())
+    def test_use_greater_healing_potion_healing_quantity(self):
+        healing_potion = GreaterHealingPotion()
+        executor = Factory().create_creature(creature_class="goblin", first_name="John", second_name="Doe")
+        target = Factory().create_creature(creature_class="goblin", first_name="Charles", second_name="Brown")
+        action = healing_potion.use(executor=executor, target=target)
+        self.assertEqual(30, action.healing_quantity())

@@ -1,3 +1,6 @@
+"""
+All tests for the factory library.
+"""
 import unittest
 
 from game_code.creatures import Goblin
@@ -5,119 +8,158 @@ from game_code.factory import Factory
 from game_code.weapons import Sword
 
 
-class TestCreatureCreationMethods(unittest.TestCase):
+class TestCreatureCreation(unittest.TestCase):
     def test_create_creature(self):
-        creature = Factory().create_creature("goblin")
-        self.assertEqual(type(creature), Goblin)
+        creature = Factory().create_creature(creature_class="goblin", first_name="John", second_name="Doe")
+        self.assertEqual(Goblin, type(creature))
 
-    def test_create_custom_creature(self):
-        creature = Factory().create_creature("goblin", {"physicality": 7})
-        self.assertEqual(7, creature.stats().physicality_base())
+    def test_create_creature_with_stat_values(self):
+        stat_values = {
+            "constitution": 1, "physicality": 2, "dexterity": 3, "social": 4, "experience": 5, "magic_base": 6,
+            "gold_worth": 7, "experience_worth": 8, "magic_enabled": True
+        }
+        creature = Factory().create_creature(
+            creature_class="goblin", first_name="John", second_name="Doe", stat_values=stat_values
+        )
+        stats = creature.stats()
+        expected_values = (1, 2, 3, 4, 5, 6, 7, 8, True)
+        actual_values = (
+            stats.constitution(), stats.physicality_base(), stats.dexterity_base(), stats.social(), stats.experience(),
+            stats.magic_base(), stats.gold_worth(), stats.experience_worth(), stats.magic_enabled()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
 
     def test_default_goblin_creation(self):
-        creature = Factory().create_creature("goblin")
-        self.assertEqual(10, creature.stats().constitution())
-        self.assertEqual(5, creature.stats().physicality_base())
-        self.assertEqual(10, creature.stats().dexterity_base())
-        self.assertEqual(0, creature.stats().social())
-        self.assertEqual(5, creature.gold_worth())
-        self.assertEqual(10, creature.experience_worth())
+        creature = Factory().create_creature(creature_class="goblin", first_name="John", second_name="Doe")
+        stats = creature.stats()
+        expected_values = (10, 5, 10, 0, 0, 0, 5, 10, False)
+        actual_values = (
+            stats.constitution(), stats.physicality_base(), stats.dexterity_base(), stats.social(), stats.experience(),
+            stats.magic_base(), stats.gold_worth(), stats.experience_worth(), stats.magic_enabled()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
 
     def test_default_orc_creation(self):
-        creature = Factory().create_creature("orc")
-        self.assertEqual(15, creature.stats().constitution())
-        self.assertEqual(13, creature.stats().physicality_base())
-        self.assertEqual(13, creature.stats().dexterity_base())
-        self.assertEqual(0, creature.stats().social())
-        self.assertEqual(10, creature.gold_worth())
-        self.assertEqual(15, creature.experience_worth())
+        creature = Factory().create_creature(creature_class="orc", first_name="John", second_name="Doe")
+        stats = creature.stats()
+        expected_values = (15, 13, 13, 0, 0, 0, 10, 15, False)
+        actual_values = (
+            stats.constitution(), stats.physicality_base(), stats.dexterity_base(), stats.social(), stats.experience(),
+            stats.magic_base(), stats.gold_worth(), stats.experience_worth(), stats.magic_enabled()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
 
     def test_default_earth_elemental_creation(self):
-        creature = Factory().create_creature("earth_elemental")
-        self.assertEqual(5, creature.stats().constitution())
-        self.assertEqual(16, creature.stats().physicality_base())
-        self.assertEqual(16, creature.stats().dexterity_base())
-        self.assertEqual(0, creature.stats().social())
-        self.assertEqual(0, creature.gold_worth())
-        self.assertEqual(30, creature.experience_worth())
+        creature = Factory().create_creature(creature_class="earth_elemental", first_name="John", second_name="Doe")
+        stats = creature.stats()
+        expected_values = (5, 16, 16, 0, 0, 0, 0, 30, True)
+        actual_values = (
+            stats.constitution(), stats.physicality_base(), stats.dexterity_base(), stats.social(), stats.experience(),
+            stats.magic_base(), stats.gold_worth(), stats.experience_worth(), stats.magic_enabled()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
 
     def test_default_djinn_creation(self):
-        creature = Factory().create_creature("djinn")
-        self.assertEqual(10, creature.stats().constitution())
-        self.assertEqual(5, creature.stats().physicality_base())
-        self.assertEqual(16, creature.stats().dexterity_base())
-        self.assertEqual(17, creature.stats().social())
-        self.assertEqual(30, creature.gold_worth())
-        self.assertEqual(15, creature.experience_worth())
+        creature = Factory().create_creature(creature_class="djinn", first_name="John", second_name="Doe")
+        stats = creature.stats()
+        expected_values = (10, 5, 16, 17, 0, 0, 30, 15, True)
+        actual_values = (
+            stats.constitution(), stats.physicality_base(), stats.dexterity_base(), stats.social(), stats.experience(),
+            stats.magic_base(), stats.gold_worth(), stats.experience_worth(), stats.magic_enabled()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
 
     def test_default_dragon_creation(self):
-        creature = Factory().create_creature("dragon")
-        self.assertEqual(30, creature.stats().constitution())
-        self.assertEqual(18, creature.stats().physicality_base())
-        self.assertEqual(18, creature.stats().dexterity_base())
-        self.assertEqual(0, creature.stats().social())
-        self.assertEqual(100000000, creature.gold_worth())
-        self.assertEqual(500, creature.experience_worth())
+        creature = Factory().create_creature(creature_class="dragon", first_name="John", second_name="Doe")
+        stats = creature.stats()
+        expected_values = (30, 18, 18, 0, 0, 0, 100000000, 500, False)
+        actual_values = (
+            stats.constitution(), stats.physicality_base(), stats.dexterity_base(), stats.social(), stats.experience(),
+            stats.magic_base(), stats.gold_worth(), stats.experience_worth(), stats.magic_enabled()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
 
     def test_default_human_creation(self):
-        creature = Factory().create_creature("human")
-        self.assertEqual(10, creature.stats().constitution())
-        self.assertEqual(10, creature.stats().physicality_base())
-        self.assertEqual(10, creature.stats().dexterity_base())
-        self.assertEqual(10, creature.stats().social())
-        self.assertEqual(0, creature.gold_worth())
-        self.assertEqual(0, creature.experience_worth())
+        creature = Factory().create_creature(creature_class="human", first_name="John", second_name="Doe")
+        stats = creature.stats()
+        expected_values = (10, 10, 10, 10, 0, 0, 0, 0, False)
+        actual_values = (
+            stats.constitution(), stats.physicality_base(), stats.dexterity_base(), stats.social(), stats.experience(),
+            stats.magic_base(), stats.gold_worth(), stats.experience_worth(), stats.magic_enabled()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
 
 
-class TestWeaponCreationMethods(unittest.TestCase):
-    def test_weapon_creation(self):
+class TestWeaponCreation(unittest.TestCase):
+    def test_create_weapon(self):
         weapon = Factory().create_weapon("sword")
         self.assertEqual(Sword, type(weapon))
 
-    def test_custom_weapon_stat(self):
-        weapon = Factory().create_weapon("sword", {"base_value": 7})
-        self.assertEqual(7, weapon.base_value())
+    def test_create_weapon_with_stat_values(self):
+        stat_values = {"base_value": 1, "dice_quantity": 2, "dice_max": 3, "value": 4, "weight": 5}
+        weapon = Factory().create_weapon(weapon_class="sword", stat_values=stat_values)
+        expected_values = (1, 2, 3, 4, 5, "Sword")
+        actual_values = (
+            weapon.base_value(), weapon.dice_quantity(), weapon.dice_max(), weapon.value(), weapon.weight(),
+            weapon.name()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
 
-    def test_default_unarmed_creation(self):
-        weapon = Factory().create_weapon("unarmed")
-        self.assertEqual("Fist", weapon.name())
-        self.assertEqual(0, weapon.base_value())
-        self.assertEqual(1, weapon.dice_quantity())
-        self.assertEqual(1, weapon.dice_max())
-
-    def test_default_sword_creation(self):
-        weapon = Factory().create_weapon("sword")
+    def test_create_weapon_without_name(self):
+        weapon = Factory().create_weapon(weapon_class="sword")
         self.assertEqual("Sword", weapon.name())
-        self.assertEqual(0, weapon.base_value())
-        self.assertEqual(1, weapon.dice_quantity())
-        self.assertEqual(6, weapon.dice_max())
 
-    def test_default_dagger_creation(self):
+    def test_create_weapon_with_name(self):
+        weapon = Factory().create_weapon(weapon_class="sword", name="John Doe")
+        self.assertEqual("John Doe (Sword)", weapon.name())
+
+    def test_create_weapon_default_unarmed(self):
+        weapon = Factory().create_weapon("unarmed")
+        expected_values = (0, 1, 1, 0, 0, "Fist")
+        actual_values = (
+            weapon.base_value(), weapon.dice_quantity(), weapon.dice_max(), weapon.value(), weapon.weight(),
+            weapon.name()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
+
+    def test_create_weapon_default_sword(self):
+        weapon = Factory().create_weapon("sword")
+        expected_values = (0, 1, 6, 5, 4, "Sword")
+        actual_values = (
+            weapon.base_value(), weapon.dice_quantity(), weapon.dice_max(), weapon.value(), weapon.weight(),
+            weapon.name()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
+
+    def test_create_weapon_default_dagger(self):
         weapon = Factory().create_weapon("dagger")
-        self.assertEqual("Dagger", weapon.name())
-        self.assertEqual(0, weapon.base_value())
-        self.assertEqual(1, weapon.dice_quantity())
-        self.assertEqual(3, weapon.dice_max())
+        expected_values = (0, 1, 3, 2, 1, "Dagger")
+        actual_values = (
+            weapon.base_value(), weapon.dice_quantity(), weapon.dice_max(), weapon.value(), weapon.weight(),
+            weapon.name()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
 
-    def test_default_rock_fist_creation(self):
+    def test_create_weapon_default_rock_fist(self):
         weapon = Factory().create_weapon("rock_fist")
-        self.assertEqual("Rock Fist", weapon.name())
-        self.assertEqual(3, weapon.base_value())
-        self.assertEqual(1, weapon.dice_quantity())
-        self.assertEqual(8, weapon.dice_max())
+        expected_values = (3, 1, 8, 0, 0, "Rock Fist")
+        actual_values = (
+            weapon.base_value(), weapon.dice_quantity(), weapon.dice_max(), weapon.value(), weapon.weight(),
+            weapon.name()
+        )
+        self.assertTupleEqual(expected_values, actual_values)
 
 
-class TestSkillCreationMethods(unittest.TestCase):
+class TestSkillCreation(unittest.TestCase):
     # TODO: Refactor create_weapon to create_skill when the necessary modifications in the game_code are completed.
-    def test_default_fire_breath_creation(self):
+    def test_create_weapon_default_fire_breath(self):
         skill = Factory().create_weapon("fire_breath")
-        self.assertEqual(0, skill.base_value())
-        self.assertEqual(2, skill.dice_quantity())
-        self.assertEqual(12, skill.dice_max())
+        expected_values = (0, 2, 12, "Fire Breath")
+        actual_values = (skill.base_value(), skill.dice_quantity(), skill.dice_max(), skill.name())
+        self.assertTupleEqual(expected_values, actual_values)
 
-    def test_default_harsh_language_creation(self):
+    def test_create_weapon_default_harsh_language(self):
         skill = Factory().create_weapon("harsh_language")
-        self.assertEqual("Harsh Language", skill.name())
-        self.assertEqual(0, skill.base_value())
-        self.assertEqual(1, skill.dice_quantity())
-        self.assertEqual(4, skill.dice_max())
+        expected_values = (0, 1, 4, "Harsh Language")
+        actual_values = (skill.base_value(), skill.dice_quantity(), skill.dice_max(), skill.name())
+        self.assertTupleEqual(expected_values, actual_values)
